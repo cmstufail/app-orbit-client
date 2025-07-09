@@ -4,24 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaGoogle, FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
+import useAuth from './../../hooks/useAuth';
+import axios from 'axios';
 
-const useAuth = () => ( {
-    createUser: ( email, password ) => {
-        console.log( 'Creating user:', email, password );
-        
-        return Promise.resolve( { user: { email } } );
-    },
-    updateUserProfile: ( name, photoURL ) => {
-        console.log( 'Updating profile:', name, photoURL );
-        
-        return Promise.resolve();
-    },
-    googleSignIn: () => {
-        console.log( 'Signing in with Google' );
-        
-        return Promise.resolve();
-    },
-} );
+const image_hosting_key = import.meta.env.VITE_IMGBB_API_KEY;
+const image_hosting_api = `https://api.imgbb.com/1/upload?key=${ image_hosting_key }`;
 
 const Register = () => {
     const {
@@ -30,29 +17,47 @@ const Register = () => {
         formState: { errors },
         reset,
     } = useForm();
+
     const navigate = useNavigate();
+
     const { createUser, updateUserProfile, googleSignIn } = useAuth();
+
     const [ showPassword, setShowPassword ] = useState( false );
-    const [ firebaseError, setFirebaseError ] = useState( '' );
+
+    const [ registerError, setRegisterError ] = useState( '' );
 
     const onSubmit = async ( data ) => {
-        setFirebaseError( '' );
+        setRegisterError( '' );
         try {
-            // 1. Create user in Firebase
-            await createUser( data.email, data.password );
+            const imageFile = { image: data.photo[ 0 ] };
+            const res = await axios.post( image_hosting_api, imageFile, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            } );
 
-            // 2. Update user's profile with name and photo
-            await updateUserProfile( data.name, data.photoURL );
+            if ( res.data.success ) {
+                const photoURL = res.data.data.display_url;
 
-            // 3. Optionally show a success message and redirect using sweetalert2
-            Swal.fire("Success!", "Your account has been created.", "success");
+                const result = await createUser( data.email, data.password );
 
-            reset();
-            navigate( '/' );
+                await updateUserProfile( data.name, photoURL );
+
+                console.log( 'User created and profile updated:', result.user );
+
+                Swal.fire( {
+                    title: "Success!",
+                    text: "Your account has been created successfully.",
+                    icon: "success",
+                    timer: 2000,
+                    showConfirmButton: false
+                } );
+                reset();
+                navigate( '/' );
+            } else {
+                throw new Error( 'Image upload failed. Please try again.' );
+            }
         } catch ( error ) {
-            // Handle Firebase errors (e.g., email-already-in-use)
-            setFirebaseError( error.message );
-            console.error( error );
+            console.error( "Registration Error:", error.message );
+            setRegisterError( error.message || 'An unexpected error occurred.' );
         }
     };
 
@@ -61,10 +66,11 @@ const Register = () => {
             await googleSignIn();
             navigate( '/' );
         } catch ( error ) {
-            setFirebaseError( error.message );
-            console.error( error );
+            setRegisterError( error.message );
+            console.error( "Google Sign-In Error:", error.message );
         }
     };
+
 
     return (
         <div className="hero min-h-screen bg-base-200">
@@ -73,7 +79,7 @@ const Register = () => {
                     <h1 className="text-3xl font-bold text-center">Create an Account</h1>
 
                     {/* Name Field */ }
-                    <div className="form-control">
+                    <div className="form-control flex flex-col">
                         <label className="label">
                             <span className="label-text mr-2">Name</span>
                         </label>
@@ -81,27 +87,27 @@ const Register = () => {
                             type="text"
                             placeholder="Your name"
                             { ...register( 'name', { required: 'Name is required' } ) }
-                            className="input input-bordered"
+                            className="input input-bordered focus:outline-none"
                         />
                         { errors.name && <p className="text-red-600 mt-1">{ errors.name.message }</p> }
                     </div>
 
-                    {/* Photo URL Field */ }
-                    <div className="form-control">
+                    {/* Photo upload Field */ }
+                    <div className="form-control flex flex-col">
                         <label className="label">
-                            <span className="label-text mr-2">Photo URL</span>
+                            <span className="label-text mr-2">Profile Picture</span>
                         </label>
                         <input
-                            type="url"
-                            placeholder="https://example.com/photo.jpg"
-                            { ...register( 'photoURL', { required: 'Photo URL is required' } ) }
-                            className="input input-bordered"
+                            type="file"
+                            placeholder="Profile picture"
+                            { ...register( 'photo', { required: 'Profile picture is required' } ) }
+                            className="file-input file-input-bordered w-full"
                         />
-                        { errors.photoURL && <p className="text-red-600 mt-1">{ errors.photoURL.message }</p> }
+                        { errors.photo && <p className="text-red-600 mt-1">{ errors.photo.message }</p> }
                     </div>
 
                     {/* Email Field */ }
-                    <div className="form-control">
+                    <div className="form-control flex flex-col">
                         <label className="label">
                             <span className="label-text mr-2">Email</span>
                         </label>
@@ -109,13 +115,13 @@ const Register = () => {
                             type="email"
                             placeholder="email@example.com"
                             { ...register( 'email', { required: 'Email is required' } ) }
-                            className="input input-bordered"
+                            className="input input-bordered focus:outline-none"
                         />
                         { errors.email && <p className="text-red-600 mt-1">{ errors.email.message }</p> }
                     </div>
 
                     {/* Password Field */ }
-                    <div className="form-control relative">
+                    <div className="form-control flex flex-col relative">
                         <label className="label">
                             <span className="label-text mr-2">Password</span>
                         </label>
@@ -130,15 +136,16 @@ const Register = () => {
                                     message: 'Password must include uppercase, lowercase, and a number',
                                 },
                             } ) }
-                            className="input input-bordered"
+                            className="input input-bordered focus:outline-none"
                         />
-                        <span className="absolute top-4 right-7 cursor-pointer" onClick={ () => setShowPassword( !showPassword ) }>
+                        {/* Show/Hide Icon */ }
+                        <span className="absolute top-9 right-22 z-10 cursor-pointer" onClick={ () => setShowPassword( !showPassword ) }>
                             { showPassword ? <FaRegEye /> : <FaRegEyeSlash /> }
                         </span>
                         { errors.password && <p className="text-red-600 mt-1">{ errors.password.message }</p> }
                     </div>
 
-                    { firebaseError && <p className="text-red-600 mt-2 text-center">{ firebaseError }</p> }
+                    { registerError && <p className="text-red-600 mt-2 text-center text-sm">{ registerError }</p> }
 
                     <div className="form-control mt-6">
                         <button type="submit" className="btn btn-primary">Register</button>
@@ -147,7 +154,7 @@ const Register = () => {
                     <div className="divider">OR</div>
 
                     <div className="form-control">
-                        <button type="button" onClick={ handleGoogleSignIn } className="btn btn-outline">
+                        <button type="button" onClick={ handleGoogleSignIn } className="btn btn-outline btn-primary">
                             <FaGoogle /> Continue with Google
                         </button>
                     </div>

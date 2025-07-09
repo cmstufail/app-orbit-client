@@ -1,26 +1,12 @@
-// src/components/common/Navbar.jsx
 
 import { Link, NavLink } from 'react-router-dom';
 import { VscAccount, VscSignOut, VscDashboard } from "react-icons/vsc";
+import { useContext } from 'react';
+import { AuthContext } from '../../../contexts/AuthContex';
 
-// Dummy Auth Hook - Replace with your actual authentication context/hook
-const useAuth = () => {
-    // In your real app, this would come from your AuthContext
-    // Example for a logged-in user:
-    return {
-        user: {
-            displayName: "John Doe",
-            photoURL: "https://i.pravatar.cc/150?u=a042581f4e29026704d", // Placeholder image
-        },
-        logout: () => console.log( "User logged out" ), // Replace with your actual logout function
-    };
-
-    // Example for a logged-out user (uncomment to test):
-    // return { user: null, logout: () => {} };
-};
 
 const Navbar = () => {
-    const { user, logout } = useAuth();
+    const { user, logOut } = useContext( AuthContext );
 
     const navLinks = (
         <>
@@ -57,22 +43,26 @@ const Navbar = () => {
                                 <img alt="User profile photo" src={ user.photoURL } />
                             </div>
                         </label>
-                        <ul tabIndex={ 0 } className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                            <li className="p-2 font-medium">{ user.displayName }</li>
-                            <div className="divider my-0"></div>
-                            <li>
-                                <Link to="/dashboard/my-profile">
-                                    <VscDashboard />
-                                    Dashboard
-                                </Link>
-                            </li>
-                            <li>
-                                <button onClick={ logout }>
-                                    <VscSignOut />
-                                    Logout
-                                </button>
-                            </li>
-                        </ul>
+                        <div>
+                            <ul tabIndex={ 0 } className="menu menu-sm dropdown-content mt-3 z-[50] p-2 shadow bg-base-100 rounded-box w-52">
+                                <li className="p-2 font-medium">{ user.displayName }</li>
+                                <li className="mt-0 pt-0">
+                                    <div className='divider my-0'></div>
+                                </li>
+                                <li>
+                                    <Link to="/dashboard/my-profile">
+                                        <VscDashboard />
+                                        Dashboard
+                                    </Link>
+                                </li>
+                                <li>
+                                    <button onClick={ logOut }>
+                                        <VscSignOut />
+                                        Logout
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 ) : (
                     <Link to="/login" className="btn btn-primary btn-outline">

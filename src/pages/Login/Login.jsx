@@ -1,22 +1,11 @@
 
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { FaGoogle } from 'react-icons/fa';
+import { FaGoogle, FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
+import useAuth from '../../hooks/useAuth';
 
-const useAuth = () => ( {
-    signIn: ( email, password ) => {
-        console.log( 'Signing in user:', email, password );
-        
-        return Promise.resolve( { user: { email } } );
-    },
-    googleSignIn: () => {
-        console.log( 'Signing in with Google' );
-    
-        return Promise.resolve();
-    },
-} );
 
 const Login = () => {
     const {
@@ -24,27 +13,27 @@ const Login = () => {
         handleSubmit,
         formState: { errors },
     } = useForm();
+
     const navigate = useNavigate();
     const location = useLocation();
     const { signIn, googleSignIn } = useAuth();
-    const [ firebaseError, setFirebaseError ] = useState( '' );
+    const [ loginError, setLoginError ] = useState( '' );
+    const [ showPassword, setShowPassword ] = useState( false );
 
-    // Redirect user to the page they were on before, or to the homepage
     const from = location.state?.from?.pathname || '/';
 
     const onSubmit = async ( data ) => {
-        setFirebaseError( '' );
+        setLoginError( '' );
         try {
             // Sign in user with Firebase
             await signIn( data.email, data.password );
 
-            // Optionally show a success message
-            Swal.fire("Success!", "You've logged in successfully.", "success");
+            // show a success message
+            Swal.fire( "Success!", "You've logged in successfully.", "success" );
 
             navigate( from, { replace: true } );
         } catch ( error ) {
-            // Handle Firebase errors (e.g., wrong-password, user-not-found)
-            setFirebaseError( 'Invalid email or password. Please try again.' );
+            setLoginError( 'Invalid email or password. Please try again.' );
             console.error( error );
         }
     };
@@ -54,8 +43,8 @@ const Login = () => {
             await googleSignIn();
             navigate( from, { replace: true } );
         } catch ( error ) {
-            setFirebaseError( error.message );
-            console.error( error );
+            setLoginError( error.message );
+            console.error( "Google Sign-In Error:", error );
         }
     };
 
@@ -74,26 +63,33 @@ const Login = () => {
                             type="email"
                             placeholder="email@example.com"
                             { ...register( 'email', { required: 'Email is required' } ) }
-                            className="input input-bordered"
+                            className="input input-bordered focus:outline-none"
                         />
                         { errors.email && <p className="text-red-600 mt-1">{ errors.email.message }</p> }
                     </div>
 
                     {/* Password Field */ }
-                    <div className="form-control">
+                    <div className="form-control relative">
                         <label className="label">
                             <span className="label-text">Password</span>
                         </label>
                         <input
-                            type="password"
+                            type={ showPassword ? 'text' : 'password' }
                             placeholder="••••••••"
                             { ...register( 'password', { required: 'Password is required' } ) }
-                            className="input input-bordered"
+                            className="input input-bordered focus:outline-none pr-10"
                         />
+                        {/* Show/Hide Icon */ }
+                        <span
+                            className="absolute top-9 right-5 z-10 cursor-pointer"
+                            onClick={ () => setShowPassword( !showPassword ) }
+                        >
+                            { showPassword ? <FaRegEye /> : <FaRegEyeSlash /> }
+                        </span>
                         { errors.password && <p className="text-red-600 mt-1">{ errors.password.message }</p> }
                     </div>
 
-                    { firebaseError && <p className="text-red-600 mt-2 text-center">{ firebaseError }</p> }
+                    { loginError && <p className="text-red-600 mt-2 text-center">{ loginError }</p> }
 
                     <div className="form-control mt-6">
                         <button type="submit" className="btn btn-primary">Login</button>
