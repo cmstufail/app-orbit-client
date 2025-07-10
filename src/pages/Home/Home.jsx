@@ -8,7 +8,7 @@ import CommunitySpotlight from '../../components/home/CommunitySpotlight/Communi
 
 const Home = () => {
     return (
-        <div>
+        <div className='w-7xl mx-auto'>
             <Banner />
             <FeaturedProducts />
             <TrendingProducts />
