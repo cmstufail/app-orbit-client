@@ -1,0 +1,110 @@
+import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { FaTag, FaCalendarAlt } from 'react-icons/fa';
+
+const fetchValidCoupons = async () => {
+    const { data } = await axios.get( 'http://localhost:5000/api/coupons/valid' );
+    return data;
+};
+
+const CouponSlider = () => {
+    const [ currentIndex, setCurrentIndex ] = useState( 0 );
+
+    const {
+        data: coupons = [],
+        isLoading,
+        isError,
+        error
+    } = useQuery( {
+        queryKey: [ 'validCoupons' ],
+        queryFn: fetchValidCoupons,
+        staleTime: 1000 * 60 * 5,
+        refetchOnWindowFocus: true,
+    } );
+
+    useEffect( () => {
+        if ( coupons.length > 1 ) {
+            const interval = setInterval( () => {
+                setCurrentIndex( ( prevIndex ) => ( prevIndex + 1 ) % coupons.length );
+            }, 5000 );
+            return () => clearInterval( interval );
+        }
+    }, [ coupons ] );
+
+    if ( isLoading ) {
+        return (
+            <div className="text-center py-8">
+                <span className="loading loading-spinner loading-md"></span>
+                <p>Loading exciting offers...</p>
+            </div>
+        );
+    }
+
+    if ( isError ) {
+        return (
+            <div className="text-center py-8 text-red-500">
+                <p>Error loading coupons: { error.message }</p>
+            </div>
+        );
+    }
+
+    if ( coupons.length === 0 ) {
+        return (
+            <div className="text-center py-8 text-gray-500">
+                <p>No active coupons at the moment. Check back soon!</p>
+            </div>
+        );
+    }
+
+    const formatDate = ( dateString ) => {
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        return new Date( dateString ).toLocaleDateString( undefined, options );
+    };
+
+    return (
+        <div className="py-12 bg-gradient-to-r from-purple-500 to-pink-500 text-white overflow-hidden">
+            <div className="container mx-auto px-4 text-center">
+                <h2 className="text-3xl font-bold mb-8">Exclusive Offers!</h2>
+                <div className="relative w-full max-w-2xl mx-auto h-48 sm:h-56 md:h-64 lg:h-72">
+                    { coupons.map( ( coupon, index ) => (
+                        <div
+                            key={ coupon._id }
+                            className={ `absolute top-0 left-0 w-full h-full p-6 flex flex-col items-center justify-center 
+                                transition-opacity duration-1000 ease-in-out ${ index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                                }` }
+                        >
+                            <div className="bg-white text-gray-800 rounded-lg shadow-xl p-6 w-full h-full flex flex-col justify-center items-center">
+                                <FaTag className="text-4xl text-primary mb-3" />
+                                <h3 className="text-4xl font-extrabold text-primary mb-2">
+                                    { coupon.discountAmount }% OFF!
+                                </h3>
+                                <p className="text-2xl font-bold mb-3">{ coupon.couponCode }</p>
+                                <p className="text-lg text-gray-700 mb-3">{ coupon.couponDescription }</p>
+                                <div className="flex items-center text-sm text-gray-500">
+                                    <FaCalendarAlt className="mr-1" /> Expires: { formatDate( coupon.expiryDate ) }
+                                </div>
+                            </div>
+                        </div>
+                    ) ) }
+                </div>
+
+                { coupons.length > 1 && (
+                    <div className="flex justify-center mt-4 space-x-2">
+                        { coupons.map( ( _, index ) => (
+                            <button
+                                key={ index }
+                                onClick={ () => setCurrentIndex( index ) }
+                                className={ `h-3 w-3 rounded-full ${ index === currentIndex ? 'bg-white' : 'bg-white bg-opacity-50'
+                                    }` }
+                                aria-label={ `Go to slide ${ index + 1 }` }
+                            />
+                        ) ) }
+                    </div>
+                ) }
+            </div>
+        </div>
+    );
+};
+
+export default CouponSlider;

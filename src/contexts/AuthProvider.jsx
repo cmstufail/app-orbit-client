@@ -1,53 +1,112 @@
-import React, { useEffect, useState } from 'react'
-import { AuthContext } from './AuthContex'
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth'
-import { auth } from '../firebase/firebase.init'
+import React, { useEffect, useState } from 'react';
+import {
+    GoogleAuthProvider,
+    createUserWithEmailAndPassword,
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    signOut,
+    updateProfile
+} from 'firebase/auth';
 
-const googleProvider = new GoogleAuthProvider();
+import axios from 'axios';
+import { auth } from './../utilities/firebase.init';
+import { AuthContext } from './AuthContex';
+
+const axiosPublic = axios.create( {
+    baseURL: `${ import.meta.env.VITE_API_BASE_URL }/api`,
+    withCredentials: false,
+} );
 
 const AuthProvider = ( { children } ) => {
-
     const [ user, setUser ] = useState( null );
     const [ loading, setLoading ] = useState( true );
 
+    const googleProvider = new GoogleAuthProvider();
+
     const createUser = ( email, password ) => {
         setLoading( true );
-        return createUserWithEmailAndPassword( auth, email, password )
-    }
+        return createUserWithEmailAndPassword( auth, email, password );
+    };
 
     const signIn = ( email, password ) => {
         setLoading( true );
-        return signInWithEmailAndPassword( auth, email, password )
-    }
-
-    const logOut = () => {
-        setLoading( true );
-        return signOut( auth );
-    }
+        return signInWithEmailAndPassword( auth, email, password );
+    };
 
     const googleSignIn = () => {
         setLoading( true );
         return signInWithPopup( auth, googleProvider );
     };
 
-    const updateUserProfile = ( name, photoURL ) => {
+    const updateUserProfile = ( name, photo ) => {
         return updateProfile( auth.currentUser, {
             displayName: name,
-            photoURL: photoURL
+            photoURL: photo,
         } );
     };
 
-    useEffect( () => {
-        const unsubscribe = onAuthStateChanged( auth, currentUser => {
-            setUser( currentUser );
-            console.log( 'Current User:', currentUser );
+    const logout = async () => {
+        setLoading( true );
+        localStorage.removeItem( 'access-token' );
+
+        try {
+            await signOut( auth );
+            console.log( "AuthProvider: Firebase signOut successful. User state cleared." );
+        } catch ( error ) {
+            console.error( "AuthProvider: Error during Firebase signOut:", error );
+        } finally {
+            setUser( null );
             setLoading( false );
+        }
+    };
+
+    useEffect( () => {
+        const unsubscribe = onAuthStateChanged( auth, async ( currentUser ) => {
+            console.log( 'AuthProvider: onAuthStateChanged Fired. Current User (Raw from Firebase):', currentUser );
+
+            if ( currentUser ) {
+                try {
+                    const storedCustomToken = localStorage.getItem( 'access-token' );
+
+                    if ( !storedCustomToken ) {
+                        console.log( 'AuthProvider: Custom JWT missing. Fetching new one from backend.' );
+                        const idToken = await currentUser.getIdToken();
+                        const res = await axiosPublic.post( '/auth/jwt', {
+                            token: idToken,
+                            email: currentUser.email,
+                            name: currentUser.displayName,
+                            photo: currentUser.photoURL,
+                            uid: currentUser.uid
+                        } );
+                        localStorage.setItem( 'access-token', res.data.token );
+                        console.log( 'AuthProvider: New Custom JWT stored in localStorage.' );
+                    } else {
+                        console.log( 'AuthProvider: Custom JWT already found in localStorage. Reusing.' );
+                    }
+
+                    setUser( currentUser );
+
+                } catch ( err ) {
+                    console.error( "AuthProvider: Error during token process (Firebase or Backend):", err );
+                    localStorage.removeItem( 'access-token' );
+                    setUser( null );
+                } finally {
+                    setLoading( false );
+                    console.log( 'AuthProvider: Loading set to false after definitive state check.' );
+                }
+            } else {
+                localStorage.removeItem( 'access-token' );
+                console.log( 'AuthProvider: No current user. Token removed from localStorage.' );
+                setUser( null );
+                setLoading( false );
+            }
         } );
 
         return () => {
             unsubscribe();
-        }
-    }, [] )
+        };
+    }, [ auth ] );
 
     const authInfo = {
         user,
@@ -55,16 +114,15 @@ const AuthProvider = ( { children } ) => {
         createUser,
         signIn,
         googleSignIn,
-        logOut,
+        logout,
         updateUserProfile
-
-    }
+    };
 
     return (
         <AuthContext.Provider value={ authInfo }>
             { children }
         </AuthContext.Provider>
-    )
-}
+    );
+};
 
-export default AuthProvider
+export default AuthProvider;
