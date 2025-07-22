@@ -12,7 +12,7 @@ const ProductCard = ( { product } ) => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
-    const defaultImage = 'https://placehold.co/400x200?text=No+Image';
+    const defaultImage = 'https://i.ibb.co/1JthzCwR/character-default-avatar.png';
 
     const isOwner = user && user.uid === product.owner?.id;
     const alreadyUpvoted = user && product.upvotedBy?.includes( user.uid );
