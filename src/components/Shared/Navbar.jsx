@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { VscAccount, VscSignOut, VscDashboard } from "react-icons/vsc";
 import useAuth from '../../hooks/useAuth';
@@ -18,12 +17,12 @@ const Navbar = () => {
     const handleLogout = async () => {
         try {
             await logout();
-            alert( 'Logged out successfully!' );
         } catch ( error ) {
             console.error( "Logout error:", error );
-            alert( 'Logout failed!' );
         }
     };
+
+    const defaultAvatar = "https://i.ibb.co/r7b6M7t/user-default.png";
 
     return (
         <div className="navbar bg-base-100 shadow-sm container px-4 mx-auto">
@@ -36,12 +35,12 @@ const Navbar = () => {
                     </label>
                     <ul tabIndex={ 0 } className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                         { navLinks }
-                        {/* Mobile Dashboard Link: Add here as it's a common pattern for mobile menus */ }
+                        {/* Mobile Dashboard Link*/ }
                         { user && <li><NavLink to="/dashboard/my-profile" className={ ( { isActive } ) => isActive ? 'font-bold text-primary' : '' }>Dashboard</NavLink></li> }
                     </ul>
                 </div>
                 {/* Website Logo/Name */ }
-                <Link to="/" className="btn btn-ghost text-2xl font-bold text-primary">
+                <Link to="/" className="hidden md:block btn btn-ghost text-2xl font-bold text-primary">
                     <AppOrbitLogo />
                 </Link>
             </div>
@@ -50,7 +49,7 @@ const Navbar = () => {
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
                     { navLinks }
-                    {/* Desktop Dashboard Link: Removed from here as per requirement */ }
+                    {/* Desktop Dashboard */ }
                 </ul>
             </div>
 
@@ -67,7 +66,7 @@ const Navbar = () => {
                                 <div className="w-10 rounded-full" title={ user.displayName || user.email }>
                                     <img
                                         alt="User profile photo"
-                                        src={ user.photoURL || "https://i.ibb.co/L936N1j/male-avatar-profile-picture-vector.jpg" }
+                                        src={ user.photoURL || defaultAvatar }
                                     />
                                 </div>
                             </label>
@@ -78,7 +77,7 @@ const Navbar = () => {
                                     <li className="mt-0 pt-0">
                                         <div className='divider my-0'></div>
                                     </li>
-                                    {/* Dashboard Link - ONLY HERE IN DROPDOWN (as per requirement) */ }
+                                    {/* Dashboard Link - ONLY HERE IN DROPDOWN */ }
                                     <li>
                                         <Link to="/dashboard">
                                             <VscDashboard />
