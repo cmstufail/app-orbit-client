@@ -31,11 +31,14 @@ const Login = () => {
         setLoginError( '' );
         setIsSubmitting( true );
 
+        let loadingToastId;
+
         try {
+            loadingToastId = toast.loading( 'Logging in...' );
             const result = await signIn( data.email, data.password );
             const loggedUser = result.user;
 
-            const res = await axios.post( `${ import.meta.env.VITE_API_BASE_URL }/jwt`, {
+            const res = await axios.post( `${ import.meta.env.VITE_API_BASE_URL }/api/auth/jwt`, {
                 token: await loggedUser.getIdToken(),
                 email: loggedUser.email,
                 name: loggedUser.displayName,
@@ -46,12 +49,11 @@ const Login = () => {
             localStorage.setItem( 'access-token', res.data.token );
             console.log( 'LoginPage: Custom JWT stored:', res.data.token.substring( 0, 30 ) + '...' );
 
+            toast.dismiss( loadingToastId );
             toast.success( 'Logged in successfully!' );
 
-            // 5. Redirect
-            navigate( from, { replace: true } );
-
         } catch ( error ) {
+            toast.dismiss( loadingToastId );
             console.error( 'Login error:', error );
 
             let errorMessage = 'Login failed. Please try again.';
@@ -60,10 +62,13 @@ const Login = () => {
                 switch ( error.code ) {
                     case 'auth/user-not-found':
                     case 'auth/wrong-password':
-                        errorMessage = 'Invalid email or password';
+                        errorMessage = 'Invalid email or password.';
                         break;
                     case 'auth/too-many-requests':
-                        errorMessage = 'Account temporarily locked. Try again later or reset password.';
+                        errorMessage = 'Too many login attempts. Please try again later or reset password.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Invalid email format.';
                         break;
                     case 'auth/network-request-failed':
                         errorMessage = 'Network error. Please check your connection.';
@@ -76,7 +81,7 @@ const Login = () => {
                         break;
                 }
             } else if ( error.response ) {
-                errorMessage = error.response.data.error || 'Authentication error';
+                errorMessage = error.response.data.error || error.response.data.message || 'Authentication error';
             }
 
             setLoginError( errorMessage );
@@ -90,7 +95,9 @@ const Login = () => {
         setLoginError( '' );
         setIsSubmitting( true );
 
+        let loadingToastId;
         try {
+            loadingToastId = toast.loading( 'Logging in with Google...' );
             const result = await googleSignIn();
             const loggedUser = result.user;
 
@@ -105,15 +112,20 @@ const Login = () => {
             localStorage.setItem( 'access-token', res.data.token );
             console.log( 'LoginPage: Custom JWT stored after Google login:', res.data.token.substring( 0, 30 ) + '...' );
 
+            toast.dismiss( loadingToastId );
             toast.success( 'Logged in successfully with Google!' );
 
-            navigate( from, { replace: true } );
-
         } catch ( error ) {
+            toast.dismiss( loadingToastId );
             console.error( 'Google login error:', error );
-            const errorMessage = error.response?.data?.error ||
-                error.message ||
-                'Google login failed';
+            let errorMessage = 'Google login failed. Please try again.';
+
+            if ( error.code === 'auth/popup-closed-by-user' ) {
+                errorMessage = 'Google login popup was closed.';
+            } else if ( error.response ) {
+                errorMessage = error.response.data.error || error.response.data.message || 'Authentication error';
+            }
+
             setLoginError( errorMessage );
             toast.error( errorMessage );
         } finally {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     GoogleAuthProvider,
     createUserWithEmailAndPassword,
@@ -11,7 +11,9 @@ import {
 
 import axios from 'axios';
 import { auth } from './../utilities/firebase.init';
-import { AuthContext } from './AuthContex';
+import { AuthContext } from './AuthContext'; 
+import { toast } from 'react-hot-toast';
+
 
 const axiosPublic = axios.create( {
     baseURL: `${ import.meta.env.VITE_API_BASE_URL }/api`,
@@ -48,13 +50,18 @@ const AuthProvider = ( { children } ) => {
 
     const logout = async () => {
         setLoading( true );
-        localStorage.removeItem( 'access-token' );
-
+        let loadingToastId;
         try {
+            loadingToastId = toast.loading( 'Logging out...' );
+            localStorage.removeItem( 'access-token' );
             await signOut( auth );
+            toast.dismiss( loadingToastId );
+            toast.success( 'Logged out successfully!' );
             console.log( "AuthProvider: Firebase signOut successful. User state cleared." );
         } catch ( error ) {
-            console.error( "AuthProvider: Error during Firebase signOut:", error );
+            toast.dismiss( loadingToastId );
+            console.error( "Logout error:", error );
+            toast.error( 'Logout failed. Please try again.' );
         } finally {
             setUser( null );
             setLoading( false );
