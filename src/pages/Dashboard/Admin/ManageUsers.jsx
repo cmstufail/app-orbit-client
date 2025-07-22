@@ -4,12 +4,17 @@ import Swal from 'sweetalert2'; //
 import { FaUserShield, FaUserTie } from 'react-icons/fa';
 import useAxiosSecure from './../../../hooks/useAxiosSecure';
 import Spinner from '../../../components/Shared/Spinner';
+import { useEffect } from 'react';
 
 const ManageUsers = () => {
+
+    useEffect( () => {
+        document.title = 'Manage Users || AppOrbit';
+    }, [] );
+
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
 
-    // 1. Fetch all users
     const {
         data: users = [],
         isLoading,
@@ -17,16 +22,15 @@ const ManageUsers = () => {
     } = useQuery( {
         queryKey: [ 'allUsers' ],
         queryFn: async () => {
-            const res = await axiosSecure.get( '/users/all-users' ); // Backend endpoint to get all users
+            const res = await axiosSecure.get( '/users/all-users' );
             return res.data;
         },
         staleTime: 1000 * 60,
     } );
 
-    // 2. Mutation for updating user role
     const updateUserRoleMutation = useMutation( {
         mutationFn: async ( { userId, newRole } ) => {
-            const res = await axiosSecure.patch( `/users/make-${ newRole }/${ userId }` ); // Backend endpoint
+            const res = await axiosSecure.patch( `/users/make-${ newRole }/${ userId }` );
             return res.data;
         },
         onSuccess: ( data ) => {
@@ -53,7 +57,7 @@ const ManageUsers = () => {
         },
     } );
 
-    // Handler for "Make Moderator" or "Make Admin" button click
+    // Handler for "Make Moderator" or "Make Admin"
     const handleMakeRole = ( userId, currentRole, targetRole, userName ) => {
 
         if ( currentRole === targetRole ) {

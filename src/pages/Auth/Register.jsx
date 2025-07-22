@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaGoogle, FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
@@ -12,6 +12,11 @@ const image_hosting_api =
     `https://api.imgbb.com/1/upload?key=${ image_hosting_key }`;
 
 const Register = () => {
+
+    useEffect( () => {
+        document.title = 'Register || AppOrbit';
+    }, [] );
+
     const {
         register,
         handleSubmit,

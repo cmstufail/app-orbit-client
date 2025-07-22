@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import Sidebar from './../components/Dashboard/Sidebar';
 import Navbar from '../components/Shared/Navbar';
 
 const DashboardLayout = () => {
+
+    useEffect( () => {
+            document.title = 'Dashboard || AppOrbit';
+        }, [] );
+
     const { loading } = useAuth();
 
     if ( loading ) {

@@ -14,6 +14,11 @@ const fetchProducts = async ( page, limit, search ) => {
 };
 
 const ProductsPage = () => {
+
+    useEffect( () => {
+        document.title = 'Products || AppOrbit';
+    }, [] );
+
     const navigate = useNavigate();
     const location = useLocation();
 

@@ -7,6 +7,11 @@ import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
 
 const Login = () => {
+
+    useEffect( () => {
+        document.title = 'Login || AppOrbit';
+    }, [] );
+
     const { signIn, googleSignIn, user, loading: authLoading } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();

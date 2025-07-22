@@ -14,7 +14,7 @@ const CommunitySpotlight = () => {
     );
   }
 
-  const targetPath = user ? "/dashboard/my-profile" : "/register";
+  const targetPath = user ? "/dashboard" : "/register";
   const buttonText = user ? "Go to My Dashboard" : "Join AppOrbit Today!";
 
   return (

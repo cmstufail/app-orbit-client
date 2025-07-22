@@ -3,8 +3,14 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import { FaEye, FaTrashAlt } from 'react-icons/fa';
 import useAxiosSecure from './../../../hooks/useAxiosSecure';
+import { useEffect } from 'react';
 
 const ReportedContents = () => {
+
+    useEffect( () => {
+        document.title = 'Reported Contents || AppOrbit';
+    }, [] );
+
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
 

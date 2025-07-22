@@ -1,11 +1,16 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import Swal from 'sweetalert2'; 
+import Swal from 'sweetalert2';
 import { FaEye, FaCheck, FaTimes, FaStar } from 'react-icons/fa';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const ProductReviewQueue = () => {
+
+    useEffect( () => {
+        document.title = 'Product Review || AppOrbit';
+    }, [] );
+
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
 

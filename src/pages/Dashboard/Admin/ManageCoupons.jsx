@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import Swal from 'sweetalert2';
@@ -7,11 +7,16 @@ import { useForm } from 'react-hook-form';
 import useAxiosSecure from './../../../hooks/useAxiosSecure';
 
 const ManageCoupons = () => {
+
+    useEffect( () => {
+            document.title = 'Manage Coupons || AppOrbit';
+        }, [] );
+
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
     const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm();
 
-    // State for managing edit mode (when editing an existing coupon)
+    // State for managing edit mode
     const [ editingCoupon, setEditingCoupon ] = useState( null );
     // 1. Fetch all coupons
     const {
@@ -28,7 +33,7 @@ const ManageCoupons = () => {
         staleTime: 1000 * 60,
     } );
 
-    // 2. Mutation for adding a coupon
+    // Mutation for adding a coupon
     const addCouponMutation = useMutation( {
         mutationFn: async ( newCouponData ) => {
             const res = await axiosSecure.post( '/coupons', newCouponData );
@@ -51,7 +56,7 @@ const ManageCoupons = () => {
         },
     } );
 
-    // 3. Mutation for updating a coupon
+    // Mutation for updating a coupon
     const updateCouponMutation = useMutation( {
         mutationFn: async ( { couponId, updatedData } ) => {
             const res = await axiosSecure.patch( `/coupons/${ couponId }`, updatedData );
@@ -75,10 +80,10 @@ const ManageCoupons = () => {
         },
     } );
 
-    // 4. Mutation for deleting a coupon
+    // Mutation for deleting a coupon
     const deleteCouponMutation = useMutation( {
         mutationFn: async ( couponId ) => {
-            const res = await axiosSecure.delete( `/coupons/${ couponId }` ); // Backend delete coupon endpoint
+            const res = await axiosSecure.delete( `/coupons/${ couponId }` ); 
             return res.data;
         },
         onSuccess: () => {
@@ -123,10 +128,8 @@ const ManageCoupons = () => {
     // Handle Edit button click
     const handleEdit = ( coupon ) => {
         setEditingCoupon( coupon );
-        // Populate the form fields with existing coupon data
         setValue( 'couponCode', coupon.couponCode );
         setValue( 'discountAmount', coupon.discountAmount );
-        // Format expiry date for input type="date" (YYYY-MM-DD)
         setValue( 'expiryDate', new Date( coupon.expiryDate ).toISOString().split( 'T' )[ 0 ] );
         setValue( 'couponDescription', coupon.couponDescription );
     };
@@ -192,7 +195,7 @@ const ManageCoupons = () => {
                     <label className="label"><span className="label-text">Discount Amount ($)</span></label>
                     <input
                         type="number"
-                        step="0.01" // Allow decimal values
+                        step="0.01"
                         placeholder="e.g., 10.00"
                         className="input input-bordered w-full"
                         { ...register( "discountAmount", {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { FaCrown, FaSyncAlt } from 'react-icons/fa';
@@ -6,6 +6,11 @@ import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const MyProfile = () => {
+
+    useEffect( () => {
+        document.title = 'My Profile || AppOrbit';
+    }, [] );
+
     const { user, loading: authLoading } = useAuth();
     const axiosSecure = useAxiosSecure();
 

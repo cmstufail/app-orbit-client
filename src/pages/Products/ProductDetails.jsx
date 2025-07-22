@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { FiArrowUp, FiFlag } from 'react-icons/fi';
@@ -10,6 +10,11 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 import axios from 'axios';
 
 const ProductDetailsPage = () => {
+
+    useEffect( () => {
+        document.title = 'Product Details || AppOrbit';
+    }, [] );
+
     const { id } = useParams();
     const navigate = useNavigate();
     const location = useLocation();

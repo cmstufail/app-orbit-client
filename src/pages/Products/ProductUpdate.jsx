@@ -7,6 +7,11 @@ import useAxiosSecure from './../../hooks/useAxiosSecure';
 
 const ProductUpdate = () => {
 
+    useEffect( () => {
+        document.title = 'Product Update || AppOrbit';
+    }, [] );
+
+
     const { id } = useParams();
     const navigate = useNavigate();
     const { user, loading: authLoading } = useAuth();
@@ -189,14 +194,14 @@ const ProductUpdate = () => {
                         name="upvotes"
                         value={ product.upvotes || 0 }
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
-                        readOnly 
+                        readOnly
                     />
                 </div>
 
                 <div className="flex items-center justify-between">
                     <button
                         type="submit"
-                        className="btn btn-primary" 
+                        className="btn btn-primary"
                         disabled={ updateProductMutation.isPending }
                     >
                         { updateProductMutation.isPending ? 'Updating Product...' : 'Update Product' }
@@ -204,7 +209,7 @@ const ProductUpdate = () => {
                     <button
                         type="button"
                         onClick={ () => navigate( '/dashboard/my-products' ) }
-                        className="btn btn-ghost" 
+                        className="btn btn-ghost"
                     >
                         Cancel
                     </button>

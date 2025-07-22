@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import Swal from 'sweetalert2';
@@ -7,6 +7,11 @@ import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const AddProduct = () => {
+
+    useEffect( () => {
+            document.title = 'Add Product || AppOrbit';
+        }, [] );
+
     const { user, loading: authLoading } = useAuth();
     const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Banner from './../Banner/Banner';
 import FeaturedProducts from './../FeaturedProducts/FeaturedProducts';
 import TrendingProducts from './../TrendingProducts/TrendingProducts';
@@ -8,6 +8,11 @@ import CommunitySpotlight from './../CommunitySpotlight/CommunitySpotlight';
 import { Link } from 'react-router';
 
 const Home = () => {
+
+    useEffect( () => {
+        document.title = 'Home || AppOrbit';
+    }, [] );
+
     return (
         <div className='w-7xl mx-auto'>
             <Banner />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { toast } from 'react-hot-toast';
@@ -10,6 +10,11 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 import CheckoutForm from './CheckoutForm';
 
 const CheckoutPage = () => {
+
+    useEffect( () => {
+        document.title = 'Checkout || AppOrbit';
+    }, [] );
+
     const { user, loading: authLoading } = useAuth();
     const axiosSecure = useAxiosSecure();
 
