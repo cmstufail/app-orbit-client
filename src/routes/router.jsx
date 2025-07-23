@@ -24,6 +24,7 @@ import DefaultDashboardView from './../components/Dashboard/DefaultDashboardView
 import AboutUs from '../components/AboutUs';
 import Contact from '../components/Contact';
 import PrivacyPolicy from '../components/PrivacyPolicy';
+import TermsOfService from '../components/TermsOfService';
 
 
 export const router = createBrowserRouter( [
@@ -67,6 +68,10 @@ export const router = createBrowserRouter( [
             {
                 path: "privacy",
                 element: <PrivacyPolicy />
+            },
+            {
+                path: "terms",
+                element: <TermsOfService />
             },
         ],
     },
