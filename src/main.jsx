@@ -6,6 +6,7 @@ import { RouterProvider } from 'react-router-dom'
 import AuthProvider from './contexts/AuthProvider.jsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast'
+import ThemeToggler from './components/Shared/ThemeToggler.jsx'
 
 const queryClient = new QueryClient();
 
@@ -14,6 +15,7 @@ createRoot( document.getElementById( 'root' ) ).render(
     <QueryClientProvider client={ queryClient }>
       <AuthProvider>
         <Toaster />
+        <ThemeToggler />
         <RouterProvider router={ router } />
       </AuthProvider>
     </QueryClientProvider>
