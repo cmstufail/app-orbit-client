@@ -22,6 +22,7 @@ import ManageUsers from '../pages/Dashboard/Admin/ManageUsers';
 import ManageCoupons from '../pages/Dashboard/Admin/ManageCoupons';
 import DefaultDashboardView from './../components/Dashboard/DefaultDashboardView';
 import AboutUs from '../components/AboutUs';
+import Contact from '../components/Contact';
 
 
 export const router = createBrowserRouter( [
@@ -57,6 +58,10 @@ export const router = createBrowserRouter( [
             {
                 path: "about",
                 element: <AboutUs />
+            },
+            {
+                path: "contact",
+                element: <Contact />
             },
         ],
     },
