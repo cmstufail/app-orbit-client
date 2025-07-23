@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiArrowUp } from 'react-icons/fi';
 import useAuth from '../../../hooks/useAuth';
@@ -12,7 +13,11 @@ const ProductCard = ( { product } ) => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
+    const [ showDefaultAvatar, setShowDefaultAvatar ] = useState( false );
+
     const defaultImage = 'https://i.ibb.co/1JthzCwR/character-default-avatar.png';
+
+    const defaultProductImagePlaceholder = 'https://via.placeholder.com/400x250?text=No+Product+Image';
 
     const isOwner = user && user.uid === product.owner?.id;
     const alreadyUpvoted = user && product.upvotedBy?.includes( user.uid );
@@ -22,28 +27,16 @@ const ProductCard = ( { product } ) => {
             const res = await axiosSecure.patch( `/products/${ productId }/upvote` );
             return res.data;
         },
-        onSuccess: ( data ) => {            
+        onSuccess: ( data ) => {
+            toast.success( data.message || 'Product upvoted successfully!' );
             queryClient.invalidateQueries( [ 'featuredProducts' ] );
             queryClient.invalidateQueries( [ 'trendingProducts' ] );
             queryClient.invalidateQueries( [ 'allProducts' ] );
             queryClient.invalidateQueries( [ 'productDetails', product._id ] );
-
-            if ( data.message === 'Product upvoted successfully' ) {
-                toast.success( 'Product upvoted successfully!' );
-            } else if ( data.message === 'Product downvoted successfully' ) {
-                toast.success( 'Product downvoted successfully!' );
-            } else {
-                toast.success( 'Upvote status changed!' );
-            }
         },
         onError: ( err ) => {
-            console.error( 'ProductCard: Upvote mutation failed:', err.response?.data || err.message );
-            const errorMessage = err.response?.data?.message || 'Failed to upvote product.';
-            Swal.fire( {
-                icon: 'error',
-                title: 'Error!',
-                text: errorMessage
-            } );
+            console.error( 'ProductCard: Upvote failed:', err.response?.data || err.message );
+            toast.error( err.response?.data?.message || 'Failed to upvote/downvote product.' );
         },
     } );
 
@@ -81,16 +74,22 @@ const ProductCard = ( { product } ) => {
         >
             <figure className="relative">
                 <img
-                    src={ product.image || defaultImage }
+                    src={ product.image || defaultProductImagePlaceholder }
                     alt={ product.name || 'Product Image' }
-                    className="h-48 w-full object-cover"
+                    className={ `
+                        ${ showDefaultAvatar ? 'w-48 h-48 rounded-full object-cover mx-auto mt-4' : 'w-full h-48 object-cover rounded-t-lg p-3' }
+                        ${ !showDefaultAvatar ? 'hover:scale-105 transition-transform duration-300' : '' }
+                    `}
                     onError={ ( e ) => {
+                        e.target.onerror = null;
                         e.target.src = defaultImage;
+                        setShowDefaultAvatar( true );
+                        console.warn( `ProductCard: Image failed to load for product "${ product.name }". Using fallback to avatar.` );
                     } }
                 />
-                <div className="absolute inset-0 z-10 flex items-center justify-center bg-black bg-opacity-40 text-white text-lg font-bold opacity-0 transition-opacity duration-200 hover:opacity-100">
+                <Link to={ `/product/${ product._id }` } className="absolute inset-0 z-10 opacity-0 hover:opacity-100 transition-opacity duration-200 flex items-center justify-center bg-black bg-opacity-40 text-white text-lg font-bold">
                     View Details
-                </div>
+                </Link>
             </figure>
             <div className="card-body p-4">
                 <h2 className="card-title">{ product.name }</h2>
@@ -110,7 +109,7 @@ const ProductCard = ( { product } ) => {
                     >
                         <FiArrowUp className="h-4 w-4" />
                         { alreadyUpvoted ? "Downvote" : "Upvote" } ({ product.upvotes || 0 })
-                    </button>                  
+                    </button>
                 </div>
             </div>
         </Link>

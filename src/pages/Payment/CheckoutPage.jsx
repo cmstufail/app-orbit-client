@@ -3,11 +3,12 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
-
-const stripePromise = loadStripe( import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY );
 import useAuth from './../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import CheckoutForm from './CheckoutForm';
+
+
+const stripePromise = loadStripe( import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY );
 
 const CheckoutPage = () => {
 
