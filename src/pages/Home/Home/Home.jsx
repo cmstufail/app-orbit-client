@@ -14,13 +14,13 @@ const Home = () => {
     }, [] );
 
     return (
-        <div className='w-7xl mx-auto'>
+        <div className='w-full px-4 xl:max-w-7xl xl:mx-auto'>
             <Banner />
             <FeaturedProducts />
             <TrendingProducts />
             <CouponSlider />
             <div className="text-center my-10">
-                <Link to="/products" className="btn btn-lg btn-secondary">Show All Products</Link>
+                <Link to="/products" className="btn btn-lg btn-primary hover:bg-white hover:text-black">Show All Products</Link>
             </div>
             <HowItWorks />
             <CommunitySpotlight />
