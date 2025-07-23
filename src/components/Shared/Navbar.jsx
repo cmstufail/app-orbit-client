@@ -25,7 +25,7 @@ const Navbar = () => {
     const defaultAvatar = "https://i.ibb.co/r7b6M7t/user-default.png";
 
     return (
-        <div className="navbar bg-base-100 shadow-sm container px-4 mx-auto">
+        <div className="avbar bg-base-100 shadow-md container px-4 mx-auto fixed top-0 left-0 right-0 z-50 flex rounded-lg">
             {/* Navbar Start Section (Logo and Mobile Menu) */ }
             <div className="navbar-start">
                 {/* Mobile Dropdown Menu */ }
