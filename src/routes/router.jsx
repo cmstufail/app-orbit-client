@@ -21,6 +21,7 @@ import Statistics from '../pages/Dashboard/Admin/Statistics';
 import ManageUsers from '../pages/Dashboard/Admin/ManageUsers';
 import ManageCoupons from '../pages/Dashboard/Admin/ManageCoupons';
 import DefaultDashboardView from './../components/Dashboard/DefaultDashboardView';
+import AboutUs from '../components/AboutUs';
 
 
 export const router = createBrowserRouter( [
@@ -52,6 +53,10 @@ export const router = createBrowserRouter( [
             {
                 path: "register",
                 element: <Register />
+            },
+            {
+                path: "about",
+                element: <AboutUs />
             },
         ],
     },
