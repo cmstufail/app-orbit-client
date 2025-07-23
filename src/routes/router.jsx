@@ -23,6 +23,7 @@ import ManageCoupons from '../pages/Dashboard/Admin/ManageCoupons';
 import DefaultDashboardView from './../components/Dashboard/DefaultDashboardView';
 import AboutUs from '../components/AboutUs';
 import Contact from '../components/Contact';
+import PrivacyPolicy from '../components/PrivacyPolicy';
 
 
 export const router = createBrowserRouter( [
@@ -62,6 +63,10 @@ export const router = createBrowserRouter( [
             {
                 path: "contact",
                 element: <Contact />
+            },
+            {
+                path: "privacy",
+                element: <PrivacyPolicy />
             },
         ],
     },
