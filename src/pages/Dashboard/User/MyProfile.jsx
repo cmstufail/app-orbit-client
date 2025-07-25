@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { FaCrown, FaSyncAlt } from 'react-icons/fa';
+
 import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
-const MyProfile = () => {
 
+const MyProfile = () => {
+    // Set the page title when the component mounts
     useEffect( () => {
         document.title = 'My Profile || AppOrbit';
     }, [] );
@@ -24,10 +26,8 @@ const MyProfile = () => {
         queryKey: [ 'dbUser', user?.email ],
         queryFn: async () => {
             if ( !user?.email ) {
-                console.log( "MyProfile queryFn: user.email is null or undefined, skipping fetch." );
                 return null;
             }
-            console.log( `MyProfile queryFn: Attempting to fetch profile from: /users/profile/${ encodeURIComponent( user.email ) }` );
             try {
                 const response = await axiosSecure.get( `/users/profile/${ encodeURIComponent( user.email ) }` );
                 const userData = response.data.user || response.data;
@@ -37,7 +37,6 @@ const MyProfile = () => {
                     throw new Error( 'Backend returned incomplete user data.' );
                 }
 
-                console.log( "MyProfile queryFn: Successfully received and processed dbUser data:", userData );
                 return userData;
 
             } catch ( backendError ) {
@@ -52,12 +51,10 @@ const MyProfile = () => {
     } );
 
     const handleRefetch = () => {
-        console.log( "MyProfile: Refresh button clicked, refetching profile data." );
         refetch();
     };
 
     if ( authLoading || dbUserLoading ) {
-        console.log( "MyProfile: Displaying loading spinner (authLoading:", authLoading, "dbUserLoading:", dbUserLoading, ")" );
         return (
             <div className="text-center py-10">
                 <span className="loading loading-spinner loading-lg"></span>
@@ -77,7 +74,6 @@ const MyProfile = () => {
     }
 
     if ( !user || !dbUser ) {
-        console.log( "MyProfile: No user or dbUser found after loading. Displaying login message." );
         return (
             <div className="text-center py-10 text-gray-500">
                 <p>No profile information available. Please <Link to="/login" className="text-blue-600 hover:underline">log in</Link>.</p>
@@ -91,7 +87,7 @@ const MyProfile = () => {
     return (
         <div className="container mx-auto px-4 py-8">
             <h2 className="text-3xl font-bold text-center mb-8">My Profile</h2>
-            <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md text-center">
+            <div className="max-w-md mx-auto bg-base-200 p-8 rounded-lg shadow-md text-center">
                 <div className="avatar mb-4">
                     <div className="w-24 h-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                         <img
@@ -102,9 +98,9 @@ const MyProfile = () => {
                     </div>
                 </div>
                 <h3 className="text-2xl font-semibold mb-2">{ dbUser.name }</h3>
-                <p className="text-gray-600 mb-4">{ dbUser.email }</p>
+                <p className="text-base-content text-opacity-70 mb-4">{ dbUser.email }</p>
 
-                <div className="mt-6 p-4 border rounded-lg bg-base-100">
+                <div className="mt-6 p-4 border rounded-lg bg-base-200">
                     <h4 className="text-xl font-bold mb-3">Membership Status</h4>
                     { isSubscribed ? (
                         <div className="flex items-center justify-center gap-2 text-success font-semibold text-lg">

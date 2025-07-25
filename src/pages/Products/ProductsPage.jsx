@@ -2,10 +2,18 @@ import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+
 import ProductCard from '../Home/FeaturedProducts/ProductCard';
 
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+if ( !API_BASE_URL ) {
+    console.error( "CRITICAL ERROR: VITE_API_BASE_URL is not defined! Check your .env.local or Vercel/Firebase Environment Variables." );
+}
+
 const fetchProducts = async ( page, limit, search ) => {
-    let url = `http://localhost:5000/api/products?page=${ page }&limit=${ limit }`;
+    let url = `h${ API_BASE_URL }/api/products?page=${ page }&limit=${ limit }`;
     if ( search ) {
         url += `&search=${ search }`;
     }

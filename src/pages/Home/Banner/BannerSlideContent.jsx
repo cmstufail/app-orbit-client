@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
+
 import Button from './../../../components/Shared/Button';
+
 
 const BannerSlideContent = ( { colorDeep, mainText, shadow, mobileShadow, subText, img, buttonText, path } ) => {
 
@@ -11,7 +13,7 @@ const BannerSlideContent = ( { colorDeep, mainText, shadow, mobileShadow, subTex
                 <h1 className="md:text-5xl text-4xl mx-auto lg:mx-0 font-bold leading-tight text-navy">
                     <span style={ { color: `${ colorDeep }` } }>{ mainText }!</span>
                 </h1>
-                <p className="leading-normal md:text-xl text-lg text-navy">{ subText }</p>
+                <p className="leading-normal md:text-xl text-lg text-black">{ subText }</p>
                 <div className='mt-8 md:w-2/5 lg:w-1/2 2xl:w-2/5'>
                     <Button
                         type='button'

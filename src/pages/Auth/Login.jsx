@@ -4,11 +4,16 @@ import { FaGoogle, FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
+import Lottie from 'lottie-react';
+
 import useAuth from '../../hooks/useAuth';
+import loginLottie from '../../../src/assets/lotties/Login.json'
+
 
 const Login = () => {
 
     useEffect( () => {
+        // Set the page title when the component mounts
         document.title = 'Login || AppOrbit';
     }, [] );
 
@@ -52,8 +57,6 @@ const Login = () => {
             }, { withCredentials: false } );
 
             localStorage.setItem( 'access-token', res.data.token );
-            console.log( 'LoginPage: Custom JWT stored:', res.data.token.substring( 0, 30 ) + '...' );
-
             toast.dismiss( loadingToastId );
             toast.success( 'Logged in successfully!' );
 
@@ -115,8 +118,6 @@ const Login = () => {
             }, { withCredentials: false } );
 
             localStorage.setItem( 'access-token', res.data.token );
-            console.log( 'LoginPage: Custom JWT stored after Google login:', res.data.token.substring( 0, 30 ) + '...' );
-
             toast.dismiss( loadingToastId );
             toast.success( 'Logged in successfully with Google!' );
 
@@ -150,9 +151,12 @@ const Login = () => {
     return (
         <div className="hero min-h-screen bg-base-200">
             <div className="hero-content flex-col lg:flex-row-reverse">
-                <div className="text-center lg:text-left">
+                {/* <div className="text-center lg:text-left">
                     <h1 className="text-5xl font-bold">Login now!</h1>
                     <p className="py-6">Access your dashboard, submit products, and unlock premium features.</p>
+                </div> */}
+                <div className='text-center lg:text-left'>
+                    <Lottie style={ { width: "300px" } } animationData={ loginLottie } loop={ true }></Lottie>
                 </div>
                 <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                     <form onSubmit={ handleSubmit( handleEmailPasswordLogin ) } className="card-body">

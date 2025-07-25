@@ -11,7 +11,6 @@ const useRole = () => {
         enabled: !authLoading && !!user?.email,
         queryFn: async () => {
             if ( !user?.email ) {
-                console.log( "useRole hook: No user email available (user object is null/undefined), defaulting role to 'user'." );
                 return 'user';
             }
             try {

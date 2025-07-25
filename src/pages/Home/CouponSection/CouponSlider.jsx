@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { FaTag, FaCalendarAlt } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+
 
 const fetchValidCoupons = async () => {
     const { data } = await axios.get( `${ import.meta.env.VITE_API_BASE_URL }/api/coupons/valid` );
@@ -12,6 +13,7 @@ const fetchValidCoupons = async () => {
 
 const CouponSlider = () => {
     const [ currentIndex, setCurrentIndex ] = useState( 0 );
+    const sectionRef = useRef( null );
 
     const {
         data: coupons = [],
@@ -67,7 +69,8 @@ const CouponSlider = () => {
     };
 
     return (
-        <div className="py-12 bg-gradient-to-r from-purple-500 to-pink-500 text-white overflow-hidden rounded-lg">
+        <div ref={ sectionRef }
+            className="py-12 my-12 bg-gradient-to-r from-[var(--coupon-gradient-start)] to-[var(--coupon-gradient-end)] text-white overflow-hidden rounded-lg">
             <div className="container mx-auto px-4 text-center">
                 <h2 className="text-3xl font-bold mb-8">Exclusive Offers!</h2>
 
@@ -79,14 +82,14 @@ const CouponSlider = () => {
                                 transition-opacity duration-1000 ease-in-out ${ index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
                                 }` }
                         >
-                            <div className="bg-white text-gray-800 rounded-lg shadow-xl p-4 sm:p-6 md:p-8 w-full h-full flex flex-col justify-center items-center">
+                            <div className="bg-base-200 text-base-content rounded-lg shadow-xl p-4 sm:p-6 md:p-8 w-full h-full flex flex-col justify-center items-center">
                                 <FaTag className="text-3xl sm:text-4xl text-primary mb-2 sm:mb-3" />
                                 <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary mb-2">
                                     { coupon.discountAmount }% OFF!
                                 </h3>
-                                <p className="text-xl sm:text-2xl font-bold mb-2"> { coupon.couponCode }</p>
-                                <p className="text-base sm:text-lg text-gray-700 mb-2"> { coupon.couponDescription }</p>
-                                <div className="flex items-center text-sm sm:text-base text-gray-500 mb-1">
+                                <p className="text-xl sm:text-2xl font-bold text-base-content text-opacity-70 mb-2"> { coupon.couponCode }</p>
+                                <p className="text-base sm:text-lg text-base-content text-opacity-70 mb-2"> { coupon.couponDescription }</p>
+                                <div className="flex items-center text-sm sm:text-base text-base-content text-opacity-70 mb-1">
                                     <FaCalendarAlt className="mr-1" /> Expires: { formatDate( coupon.expiryDate ) }
                                 </div>
                                 <button

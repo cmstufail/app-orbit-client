@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 if ( !API_BASE_URL ) {
-    console.error( "VITE_API_BASE_URL is not defined in your .env.local file! Please set it to http://localhost:5000." );
+    console.error( "CRITICAL ERROR: VITE_API_BASE_URL is not defined! Check your .env.local or Vercel/Firebase Environment Variables." );
 }
 
 export const axiosSecure = axios.create( {

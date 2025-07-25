@@ -3,6 +3,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+
 import useAuth from './../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import CheckoutForm from './CheckoutForm';
@@ -13,6 +14,7 @@ const stripePromise = loadStripe( import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY );
 const CheckoutPage = () => {
 
     useEffect( () => {
+        // Set the page title when the component mounts
         document.title = 'Checkout || AppOrbit';
     }, [] );
 
@@ -95,7 +97,7 @@ const CheckoutPage = () => {
     return (
         <div className="container mx-auto px-4 py-10">
             <h2 className="text-3xl font-bold text-center mb-6">Membership Checkout</h2>
-            <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow">
+            <div className="max-w-md mx-auto bg-base-200 p-8 rounded-lg shadow">
                 <h3 className="text-xl font-bold mb-3">
                     Total: <span className="text-primary">${ paymentAmount.toFixed( 2 ) }</span>
                 </h3>

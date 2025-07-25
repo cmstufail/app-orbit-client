@@ -1,8 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import { FaUser, FaPlus, FaProductHunt, FaCheckCircle, FaExclamationTriangle, FaChartBar, FaUsers, FaTag, FaHome, FaSignOutAlt } from 'react-icons/fa';
+import toast from 'react-hot-toast';
+
 import useRole from './../../hooks/useRole';
 import useAuth from '../../hooks/useAuth';
-import toast from 'react-hot-toast';
+
 
 const Sidebar = () => {
     const { logout } = useAuth();
@@ -15,7 +17,6 @@ const Sidebar = () => {
 
         } catch ( error ) {
             console.error( "Logout failed:", error );
-            // Optionally, add a SweetAlert notification here
         }
     };
 

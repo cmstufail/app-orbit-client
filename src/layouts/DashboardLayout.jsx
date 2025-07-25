@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
+
 import useAuth from '../hooks/useAuth';
 import Sidebar from './../components/Dashboard/Sidebar';
 import Navbar from '../components/Shared/Navbar';
 
-const DashboardLayout = () => {
 
+const DashboardLayout = () => {
+    // Set the page title when the component mounts
     useEffect( () => {
-            document.title = 'Dashboard || AppOrbit';
-        }, [] );
+        document.title = 'Dashboard || AppOrbit';
+    }, [] );
 
     const { loading } = useAuth();
 
@@ -17,7 +19,7 @@ const DashboardLayout = () => {
     }
 
     return (
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col min-h-screen mt-12 pl-12">
             <Navbar />
             <div className="flex flex-grow flex-col lg:flex-row">
                 <div className="lg:w-64 bg-base-300 p-4 shadow-lg">

@@ -1,7 +1,8 @@
 import { Link, NavLink } from 'react-router-dom';
-import { VscAccount, VscSignOut, VscDashboard } from "react-icons/vsc";
+import { VscSignOut, VscDashboard } from "react-icons/vsc";
 import useAuth from '../../hooks/useAuth';
 import AppOrbitLogo from './AppOrbitLogo';
+import { FaSignInAlt, FaUserPlus } from 'react-icons/fa';
 
 const Navbar = () => {
     const { user, logout, loading: authLoading } = useAuth();
@@ -63,7 +64,7 @@ const Navbar = () => {
                     user ? (
                         <div className="dropdown dropdown-end">
                             <label tabIndex={ 0 } className="btn btn-ghost btn-circle avatar">
-                                <div className="w-10 rounded-full" title={ user.displayName || user.email }>
+                                <div className="w-10 rounded-full text-base-content" title={ user.displayName || user.email }>
                                     <img
                                         alt="User profile photo"
                                         src={ user.photoURL || defaultAvatar }
@@ -73,7 +74,7 @@ const Navbar = () => {
                             <div>
                                 <ul tabIndex={ 0 } className="menu menu-sm dropdown-content mt-3 z-[50] p-2 shadow bg-base-100 rounded-box w-52">
                                     {/* User Name (Not clickable) */ }
-                                    <li className="p-2 font-medium text-gray-800">{ user.displayName || user.email }</li>
+                                    <li className="p-2 font-medium text-base-content">{ user.displayName || user.email }</li>
                                     <li className="mt-0 pt-0">
                                         <div className='divider my-0'></div>
                                     </li>
@@ -95,11 +96,19 @@ const Navbar = () => {
                             </div>
                         </div>
                     ) : (
-                        // If user is not logged in, show Login / Register button
-                        <Link to="/login" className="btn btn-primary btn-outline">
-                            <VscAccount />
-                            Login / Register
-                        </Link>
+                        <div className="flex gap-2 ml-2">
+                            <Link to="/login" className="btn btn-outline btn-primary rounded-full px-4 py-2 flex items-center group overflow-hidden relative">
+                                <span className="font-semibold relative z-10 transition-transform duration-300 group-hover:-translate-x-1">Login</span>
+                                <FaSignInAlt className="text-xl relative z-10 transition-transform duration-300 group-hover:translate-x-1 ml-2" />
+                                <span className="absolute inset-0 bg-primary opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-full"></span>
+                            </Link>
+
+                            <Link to="/register" className="btn btn-outline btn-secondary rounded-full px-4 py-2 flex items-center group overflow-hidden relative">
+                                <FaUserPlus className="text-xl relative z-10 transition-transform duration-300 group-hover:-translate-x-1 mr-2" />
+                                <span className="font-semibold relative z-10 transition-transform duration-300 group-hover:translate-x-1">Register</span>
+                                <span className="absolute inset-0 bg-secondary opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-full"></span>
+                            </Link>
+                        </div>
                     )
                 ) }
             </div>

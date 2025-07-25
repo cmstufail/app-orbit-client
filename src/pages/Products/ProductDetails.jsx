@@ -5,12 +5,14 @@ import { FiArrowUp, FiFlag } from 'react-icons/fi';
 import { FaStar, FaSyncAlt } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
 import Swal from 'sweetalert2';
-import useAuth from '../../hooks/useAuth';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
 import axios from 'axios';
 
-const ProductDetailsPage = () => {
+import useAuth from '../../hooks/useAuth';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
+
+const ProductDetailsPage = () => {
+    // Set the page title when the component mounts
     useEffect( () => {
         document.title = 'Product Details || AppOrbit';
     }, [] );
@@ -41,7 +43,6 @@ const ProductDetailsPage = () => {
             console.log( `ProductDetailsPage: Attempting to fetch product details for ID: ${ id }` );
             try {
                 const res = await axios.get( `${ import.meta.env.VITE_API_BASE_URL }/api/products/${ id }` );
-                console.log( "ProductDetailsPage: Received product details:", res.data );
                 return res.data;
             } catch ( error ) {
                 console.error( `ProductDetailsPage: Error fetching product ${ id } details:`, error.response?.data || error.message );
@@ -190,7 +191,6 @@ const ProductDetailsPage = () => {
     // Post Review mutation
     const postReviewMutation = useMutation( {
         mutationFn: async ( reviewData ) => {
-            console.log( "ProductDetailsPage: Submitting review data to backend:", reviewData );
             const res = await axiosSecure.post( '/reviews', reviewData );
             return res.data;
         },
@@ -205,7 +205,6 @@ const ProductDetailsPage = () => {
                 timer: 2000,
                 showConfirmButton: false,
             } );
-            // --- End SweetAlert ---
             setReviewFormData( { rating: 5, reviewDescription: '' } );
             queryClient.invalidateQueries( [ 'productReviews', id ] );
             queryClient.invalidateQueries( [ 'productDetails', id ] );
@@ -246,7 +245,6 @@ const ProductDetailsPage = () => {
             rating: reviewFormData.rating,
             reviewDescription: reviewFormData.reviewDescription,
         };
-        console.log( "ProductDetailsPage: Review data prepared for backend:", reviewToSend );
 
         postReviewMutation.mutate( reviewToSend );
     };
@@ -266,7 +264,7 @@ const ProductDetailsPage = () => {
     return (
         <div className="container mx-auto px-4 py-8">
             {/* Product Details Section */ }
-            <div className="bg-white p-8 rounded-lg shadow-xl mb-8">
+            <div className="bg-base-200 text-base-content p-8 rounded-lg shadow-xl mb-8">
                 <div className="flex flex-col md:flex-row gap-8 items-start">
                     <div className="md:w-1/2 py-5">
                         <img
@@ -281,21 +279,21 @@ const ProductDetailsPage = () => {
                         />
                     </div>
                     <div className="md:w-1/2 space-y-4">
-                        <h1 className="text-4xl font-extrabold text-gray-900">{ product.name }</h1>
-                        <p className="text-gray-600 text-lg">{ product.description }</p>
-                        <div className="flex items-center gap-2 text-gray-700">
+                        <h1 className="text-4xl font-extrabold text-base-content">{ product.name }</h1>
+                        <p className="text-lg text-base-content">{ product.description }</p>
+                        <div className="flex items-center gap-2 text-base-content text-opacity-70">
                             <span className="font-semibold">Tags:</span>
                             { product.tags.map( ( tag, index ) => (
                                 <span key={ index } className="badge badge-outline badge-primary">{ tag }</span>
                             ) ) }
                         </div>
-                        <div className="flex items-center gap-2 text-gray-700">
+                        <div className="flex items-center gap-2">
                             <span className="font-semibold">External Link:</span>
                             <a href={ product.externalLink } target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                                 Visit Product
                             </a>
                         </div>
-                        <div className="flex items-center gap-2 text-gray-700">
+                        <div className="flex items-center gap-2 text-base-content text-opacity-70">
                             <span className="font-semibold">Owner:</span>
                             <div className="flex items-center gap-2">
                                 <div className="avatar">
@@ -308,15 +306,15 @@ const ProductDetailsPage = () => {
                                 <span>{ product.owner?.name || product.owner?.email || "Unknown" }</span>
                             </div>
                         </div>
-                        <div className="flex items-center gap-2 text-gray-700">
+                        <div className="flex items-center gap-2 text-base-content text-opacity-70">
                             <span className="font-semibold">Posted On:</span>
                             <span>{ new Date( product.createdAt ).toLocaleDateString() }</span>
                         </div>
-                        <div className="flex items-center gap-2 text-gray-700">
+                        <div className="flex items-center gap-2 text-base-content text-opacity-70">
                             <span className="font-semibold">Upvotes:</span>
                             <span className="font-bold">{ product.upvotes }</span>
                         </div>
-                        <div className="flex items-center gap-2 text-gray-700">
+                        <div className="flex items-center gap-2 text-base-content text-opacity-70">
                             <span className="font-semibold">Average Rating:</span>
                             <span className="font-bold flex items-center gap-1">
                                 { product.averageRating ? product.averageRating.toFixed( 1 ) : 'N/A' } <FaStar className="text-yellow-400" /> ({ product.reviewCount } reviews)
@@ -353,7 +351,7 @@ const ProductDetailsPage = () => {
             </div>
 
             {/* Reviews Section */ }
-            <div className="bg-white p-8 rounded-lg shadow-xl mb-8">
+            <div className="bg-base-200 p-8 rounded-lg shadow-xl mb-8">
                 <h3 className="text-2xl font-bold mb-6">User Reviews ({ reviews.length })</h3>
                 { reviewsLoading ? (
                     <div className="text-center"><span className="loading loading-spinner loading-md"></span> Loading reviews...</div>
@@ -383,9 +381,9 @@ const ProductDetailsPage = () => {
                                         { Array.from( { length: 5 - review.rating } ).map( ( _, i ) => (
                                             <FaStar key={ i } className="text-gray-300" />
                                         ) ) }
-                                        <span className="text-gray-600 text-sm ml-2">{ review.rating } out of 5 stars</span>
+                                        <span className="text-gray-500 text-sm ml-2">{ review.rating } out of 5 stars</span>
                                     </div>
-                                    <p className="text-gray-700">{ review.reviewDescription }</p>
+                                    <p className="text-gray-500">{ review.reviewDescription }</p>
                                     <p className="text-gray-500 text-sm mt-2">Reviewed on: { new Date( review.createdAt ).toLocaleDateString() }</p>
                                 </div>
                             </div>
@@ -404,7 +402,7 @@ const ProductDetailsPage = () => {
             </div>
 
             {/* Post Review Section */ }
-            <div className="bg-white p-8 rounded-lg shadow-xl">
+            <div className="bg-base-200 p-8 rounded-lg shadow-xl">
                 <h3 className="text-2xl font-bold mb-6">Post Your Review</h3>
                 { !user ? (
                     <p className="text-gray-500 text-center">Please <Link to="/login" className="text-blue-600 hover:underline">log in</Link> to post a review.</p>
@@ -416,7 +414,7 @@ const ProductDetailsPage = () => {
                             <input
                                 type="text"
                                 value={ user.displayName || user.email || "Loading Name..." }
-                                className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
+                                className="input input-bordered w-full bg-base-200 cursor-not-allowed"
                                 readOnly
                             />
                         </div>

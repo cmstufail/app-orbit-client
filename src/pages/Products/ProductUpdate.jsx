@@ -2,12 +2,15 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
+
 import useAuth from './../../hooks/useAuth';
 import useAxiosSecure from './../../hooks/useAxiosSecure';
+
 
 const ProductUpdate = () => {
 
     useEffect( () => {
+        // Set the page title when the component mounts
         document.title = 'Product Update || AppOrbit';
     }, [] );
 
@@ -60,9 +63,8 @@ const ProductUpdate = () => {
             const res = await axiosSecure.patch( `/products/${ id }`, updatedProductData );
             return res.data;
         },
-        onSuccess: ( data ) => {
+        onSuccess: () => {
             toast.success( 'Product updated successfully!' );
-            console.log( 'Product updated:', data );
             queryClient.invalidateQueries( [ 'product', id ] );
             queryClient.invalidateQueries( [ 'myProducts', user?.email ] );
             queryClient.invalidateQueries( [ 'featuredProducts' ] );
@@ -129,71 +131,71 @@ const ProductUpdate = () => {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <h2 className="text-3xl font-bold text-center mb-8">Update Product: { product.name }</h2>
-            <form onSubmit={ handleSubmit } className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow-md">
+            <h2 className="text-3xl font-bold text-center text-base-content mb-8">Update Product: { product.name }</h2>
+            <form onSubmit={ handleSubmit } className="max-w-xl mx-auto bg-base-200 p-8 rounded-lg shadow-md">
                 {/* Owner Info (Read-Only) */ }
-                <div className="mb-4 bg-gray-100 p-4 rounded">
-                    <p className="text-gray-700 text-sm font-bold mb-2">Product Owner Info:</p>
+                <div className="mb-4 bg-base-200 text-base-content p-4 rounded">
+                    <p className="text-sm font-bold mb-2">Product Owner Info:</p>
                     <p><strong>Name:</strong> { product.owner?.name }</p>
                     <p><strong>Email:</strong> { product.owner?.email }</p>
-                    <p className="text-xs text-gray-500 mt-2">Owner information cannot be changed.</p>
+                    <p className="text-xs mt-2">Owner information cannot be changed.</p>
                 </div>
 
                 <div className="mb-4">
-                    <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">Product Name</label>
+                    <label htmlFor="name" className="block text-sm font-bold mb-2">Product Name</label>
                     <input
                         type="text"
                         id="name"
                         name="name"
                         value={ formData.name }
                         onChange={ handleChange }
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                         required
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="image" className="block text-gray-700 text-sm font-bold mb-2">Image URL</label>
+                    <label htmlFor="image" className="block text-sm font-bold mb-2">Image URL</label>
                     <input
                         type="url"
                         id="image"
                         name="image"
                         value={ formData.image }
                         onChange={ handleChange }
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                         required
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="description" className="block text-gray-700 text-sm font-bold mb-2">Description</label>
+                    <label htmlFor="description" className="block text-sm font-bold mb-2">Description</label>
                     <textarea
                         id="description"
                         name="description"
                         value={ formData.description }
                         onChange={ handleChange }
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-32 resize-none"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline h-32 resize-none"
                         required
                     ></textarea>
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="tags" className="block text-gray-700 text-sm font-bold mb-2">Tags (comma-separated)</label>
+                    <label htmlFor="tags" className="block text-sm font-bold mb-2">Tags (comma-separated)</label>
                     <input
                         type="text"
                         id="tags"
                         name="tags"
                         value={ formData.tags }
                         onChange={ handleChange }
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="e.g., AI, productivity, web-app"
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="upvotes" className="block text-gray-700 text-sm font-bold mb-2">Current Upvotes</label>
+                    <label htmlFor="upvotes" className="block text-sm font-bold mb-2">Current Upvotes</label>
                     <input
                         type="number"
                         id="upvotes"
                         name="upvotes"
                         value={ product.upvotes || 0 }
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline bg-gray-100"
                         readOnly
                     />
                 </div>

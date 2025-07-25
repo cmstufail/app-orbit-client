@@ -1,11 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+
 import ProductCard from '../FeaturedProducts/ProductCard';
 
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+if (!API_BASE_URL) {
+    console.error("CRITICAL ERROR: VITE_API_BASE_URL is not defined! Check your .env.local or Vercel/Firebase Environment Variables.");
+}
+
 const fetchTrendingProducts = async () => {
-    const { data } = await axios.get( 'http://localhost:5000/api/products/trending' );
+    const { data } = await axios.get( `${API_BASE_URL}/api/products/trending` );
     return data;
 };
+
+
 
 const TrendingProductsSection = () => {
     const {
@@ -51,7 +61,7 @@ const TrendingProductsSection = () => {
         <div className="py-12 bg-base-100">
             <div className="container mx-auto px-4">
                 <h2 className="text-3xl font-bold text-center mb-8">Trending Products</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"> {/* Displays 3 cards per row on large screens */ }
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     { products.map( product => (
                         <ProductCard key={ product._id } product={ product } />
                     ) ) }

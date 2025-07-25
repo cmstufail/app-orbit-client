@@ -2,13 +2,16 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
 import Swal from 'sweetalert2'; //
 import { FaUserShield, FaUserTie } from 'react-icons/fa';
+import { useEffect } from 'react';
+
 import useAxiosSecure from './../../../hooks/useAxiosSecure';
 import Spinner from '../../../components/Shared/Spinner';
-import { useEffect } from 'react';
+
 
 const ManageUsers = () => {
 
     useEffect( () => {
+        // Set the page title when the component mounts
         document.title = 'Manage Users || AppOrbit';
     }, [] );
 
@@ -102,7 +105,7 @@ const ManageUsers = () => {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 bg-base-200">
             <h2 className="text-3xl font-bold text-center mb-8">Manage Users</h2>
             <div className="overflow-x-auto">
                 <table className="table table-zebra w-full">

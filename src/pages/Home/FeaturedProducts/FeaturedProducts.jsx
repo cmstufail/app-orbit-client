@@ -3,7 +3,6 @@ import axios from 'axios';
 import ProductCard from './ProductCard';
 
 const fetchFeaturedProducts = async () => {
-    // This call ensures the URL is correct: http://localhost:5000/api/products/featured
     const { data } = await axios.get( `${ import.meta.env.VITE_API_BASE_URL }/api/products/featured` );
     return data;
 };

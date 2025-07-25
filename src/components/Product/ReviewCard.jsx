@@ -4,7 +4,7 @@ const ReviewCard = ( { review } ) => {
     const { userName, userPhoto, rating, comment, date } = review;
 
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-5">
+        <div className="bg-base-200 rounded-xl shadow-md p-5">
             <div className="flex items-center mb-3">
                 <img
                     src={ userPhoto || 'https://i.ibb.co/2d8N2rF/default-avatar.png' }

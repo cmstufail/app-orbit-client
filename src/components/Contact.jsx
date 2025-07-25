@@ -2,15 +2,17 @@ import { useEffect, useState } from 'react';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaPaperPlane } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
 
+
 const Contact = () => {
+
     const [ formData, setFormData ] = useState( {
         name: '',
         email: '',
         subject: '',
         message: ''
     } );
-    const [ isSubmitting, setIsSubmitting ] = useState( false );
 
+    const [ isSubmitting, setIsSubmitting ] = useState( false );
     // Set the page title when the component mounts
     useEffect( () => {
         document.title = 'Contact || AppOrbit';
@@ -64,8 +66,8 @@ const Contact = () => {
             <section className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Contact Information */ }
                 <div className="bg-base-200 p-8 rounded-lg shadow-lg flex flex-col justify-center">
-                    <h2 className="text-3xl font-bold mb-6 text-gray-800">Contact information</h2>
-                    <div className="space-y-4 text-lg text-gray-700">
+                    <h2 className="text-3xl font-bold mb-6 text-bse-content ">Contact information</h2>
+                    <div className="space-y-4 text-lg text-gray-500">
                         <div className="flex items-center gap-3">
                             <FaMapMarkerAlt className="text-primary text-2xl" />
                             <span>3171, Azir Market, Beanibazar, Sylhet, Bangladesh</span>
@@ -86,7 +88,7 @@ const Contact = () => {
                 </div>
 
                 {/* Contact Form */ }
-                <div className="bg-white p-8 rounded-lg shadow-lg">
+                <div className="bg-base-200 p-8 rounded-lg shadow-lg">
                     <h2 className="text-3xl font-bold mb-6 text-gray-800">Send us a message</h2>
                     <form onSubmit={ handleSubmit } className="space-y-4">
                         {/* Name Field */ }

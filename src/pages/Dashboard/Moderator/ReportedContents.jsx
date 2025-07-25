@@ -2,12 +2,15 @@ import { Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import { FaEye, FaTrashAlt } from 'react-icons/fa';
-import useAxiosSecure from './../../../hooks/useAxiosSecure';
 import { useEffect } from 'react';
+
+import useAxiosSecure from './../../../hooks/useAxiosSecure';
 
 const ReportedContents = () => {
 
+
     useEffect( () => {
+        // Set the page title when the component mounts
         document.title = 'Reported Contents || AppOrbit';
     }, [] );
 
@@ -101,7 +104,7 @@ const ReportedContents = () => {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 bg-base-200">
             <h2 className="text-3xl font-bold text-center mb-8">Reported Contents</h2>
             <div className="overflow-x-auto">
                 <table className="table table-zebra w-full">

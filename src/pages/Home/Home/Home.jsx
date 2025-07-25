@@ -1,20 +1,22 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
+import { Link } from 'react-router';
+
 import Banner from './../Banner/Banner';
 import FeaturedProducts from './../FeaturedProducts/FeaturedProducts';
 import TrendingProducts from './../TrendingProducts/TrendingProducts';
 import CouponSlider from './../CouponSection/CouponSlider';
 import HowItWorks from './../HowItWorks/HowItWorks';
 import CommunitySpotlight from './../CommunitySpotlight/CommunitySpotlight';
-import { Link } from 'react-router';
 
 const Home = () => {
 
     useEffect( () => {
+        // Set the page title when the component mounts
         document.title = 'Home || AppOrbit';
     }, [] );
 
     return (
-        <div className='w-full px-4 xl:max-w-7xl xl:mx-auto'>
+        <div className='w-full px-6 lg:px-0 xl:max-w-7xl xl:mx-auto'>
             <Banner />
             <FeaturedProducts />
             <TrendingProducts />

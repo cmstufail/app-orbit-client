@@ -4,13 +4,16 @@ import { toast } from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import { FaPlus, FaEdit, FaTrashAlt, FaTag, FaCalendarAlt } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
+
 import useAxiosSecure from './../../../hooks/useAxiosSecure';
+
 
 const ManageCoupons = () => {
 
     useEffect( () => {
-            document.title = 'Manage Coupons || AppOrbit';
-        }, [] );
+        // Set the page title when the component mounts
+        document.title = 'Manage Coupons || AppOrbit';
+    }, [] );
 
     const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
@@ -18,7 +21,6 @@ const ManageCoupons = () => {
 
     // State for managing edit mode
     const [ editingCoupon, setEditingCoupon ] = useState( null );
-    // 1. Fetch all coupons
     const {
         data: coupons = [],
         isLoading,
@@ -39,9 +41,8 @@ const ManageCoupons = () => {
             const res = await axiosSecure.post( '/coupons', newCouponData );
             return res.data;
         },
-        onSuccess: ( data ) => {
+        onSuccess: () => {
             toast.success( 'Coupon added successfully!' );
-            console.log( 'Coupon added:', data );
             reset();
             queryClient.invalidateQueries( [ 'allCoupons' ] );
             queryClient.invalidateQueries( [ 'validCoupons' ] );
@@ -62,9 +63,8 @@ const ManageCoupons = () => {
             const res = await axiosSecure.patch( `/coupons/${ couponId }`, updatedData );
             return res.data;
         },
-        onSuccess: ( data ) => {
+        onSuccess: () => {
             toast.success( 'Coupon updated successfully!' );
-            console.log( 'Coupon updated:', data );
             setEditingCoupon( null );
             reset();
             queryClient.invalidateQueries( [ 'allCoupons' ] );
@@ -83,7 +83,7 @@ const ManageCoupons = () => {
     // Mutation for deleting a coupon
     const deleteCouponMutation = useMutation( {
         mutationFn: async ( couponId ) => {
-            const res = await axiosSecure.delete( `/coupons/${ couponId }` ); 
+            const res = await axiosSecure.delete( `/coupons/${ couponId }` );
             return res.data;
         },
         onSuccess: () => {
@@ -176,11 +176,11 @@ const ManageCoupons = () => {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 bg-base-200">
             <h2 className="text-3xl font-bold text-center mb-8">{ editingCoupon ? 'Edit Coupon' : 'Add New Coupon' }</h2>
 
             {/* Coupon Add/Edit Form */ }
-            <form onSubmit={ handleSubmit( onSubmit ) } className="max-w-xl mx-auto bg-white p-8 rounded-lg shadow-md mb-10">
+            <form onSubmit={ handleSubmit( onSubmit ) } className="max-w-xl mx-auto bg-base-200 p-8 rounded-lg shadow-md mb-10">
                 <div className="form-control mb-4">
                     <label className="label"><span className="label-text">Coupon Code</span></label>
                     <input

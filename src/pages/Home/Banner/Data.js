@@ -1,4 +1,3 @@
-
 import img1 from "../../../assets/banner/img1.png";
 import img2 from "../../../assets/banner/img2.png";
 import img3 from "../../../assets/banner/img3.png";

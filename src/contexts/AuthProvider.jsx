@@ -8,11 +8,11 @@ import {
     signOut,
     updateProfile
 } from 'firebase/auth';
-
 import axios from 'axios';
-import { auth } from './../utilities/firebase.init';
-import { AuthContext } from './AuthContext'; 
 import { toast } from 'react-hot-toast';
+
+import { auth } from './../utilities/firebase.init';
+import { AuthContext } from './AuthContext';
 
 
 const axiosPublic = axios.create( {
@@ -57,7 +57,6 @@ const AuthProvider = ( { children } ) => {
             await signOut( auth );
             toast.dismiss( loadingToastId );
             toast.success( 'Logged out successfully!' );
-            console.log( "AuthProvider: Firebase signOut successful. User state cleared." );
         } catch ( error ) {
             toast.dismiss( loadingToastId );
             console.error( "Logout error:", error );
@@ -70,14 +69,12 @@ const AuthProvider = ( { children } ) => {
 
     useEffect( () => {
         const unsubscribe = onAuthStateChanged( auth, async ( currentUser ) => {
-            console.log( 'AuthProvider: onAuthStateChanged Fired. Current User (Raw from Firebase):', currentUser );
 
             if ( currentUser ) {
                 try {
                     const storedCustomToken = localStorage.getItem( 'access-token' );
 
                     if ( !storedCustomToken ) {
-                        console.log( 'AuthProvider: Custom JWT missing. Fetching new one from backend.' );
                         const idToken = await currentUser.getIdToken();
                         const res = await axiosPublic.post( '/auth/jwt', {
                             token: idToken,
@@ -87,9 +84,8 @@ const AuthProvider = ( { children } ) => {
                             uid: currentUser.uid
                         } );
                         localStorage.setItem( 'access-token', res.data.token );
-                        console.log( 'AuthProvider: New Custom JWT stored in localStorage.' );
                     } else {
-                        console.log( 'AuthProvider: Custom JWT already found in localStorage. Reusing.' );
+                        // console.log( 'AuthProvider: Custom JWT already found in localStorage. Reusing.' );
                     }
 
                     setUser( currentUser );
@@ -100,11 +96,9 @@ const AuthProvider = ( { children } ) => {
                     setUser( null );
                 } finally {
                     setLoading( false );
-                    console.log( 'AuthProvider: Loading set to false after definitive state check.' );
                 }
             } else {
                 localStorage.removeItem( 'access-token' );
-                console.log( 'AuthProvider: No current user. Token removed from localStorage.' );
                 setUser( null );
                 setLoading( false );
             }

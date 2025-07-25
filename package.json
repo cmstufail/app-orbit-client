@@ -17,6 +17,8 @@
     "axios": "^1.10.0",
     "firebase": "^11.10.0",
     "firebase-admin": "^13.4.0",
+    "framer-motion": "^12.23.7",
+    "lottie-react": "^2.4.1",
     "motion": "^12.23.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

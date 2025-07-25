@@ -1,7 +1,9 @@
 import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from 'recharts';
 import { useQuery } from '@tanstack/react-query';
-import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { useEffect } from 'react';
+
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
+
 
 const COLORS = [ '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#A4DD00', '#FF6666', '#7C4DFF' ];
 
@@ -32,7 +34,7 @@ const CustomPieChartLabel = ( { cx, cy, midAngle, outerRadius, percent, name, va
 
 
 const Statistics = () => {
-
+  // Set the page title when the component mounts
   useEffect( () => {
     document.title = 'Statistics || AppOrbit';
   }, [] );
@@ -47,10 +49,8 @@ const Statistics = () => {
   } = useQuery( {
     queryKey: [ 'adminStatistics' ],
     queryFn: async () => {
-      console.log( "StatisticsPage: Attempting to fetch stats from /admin/stats" );
       try {
         const res = await axiosSecure.get( '/admin/stats' );
-        console.log( "StatisticsPage: Raw backend response for stats:", res.data );
         return res.data;
       } catch ( axiosError ) {
         console.error( "StatisticsPage: Error fetching stats (AxiosError):", axiosError.response?.data || axiosError.message );
@@ -99,7 +99,7 @@ const Statistics = () => {
   }
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
+    <div className="p-6 max-w-5xl mx-auto bg-base-200">
       <h2 className="text-3xl font-bold text-center mb-6">📊 Admin Statistics Overview</h2>
 
       <div className="bg-base-100 shadow-md rounded-lg p-4">

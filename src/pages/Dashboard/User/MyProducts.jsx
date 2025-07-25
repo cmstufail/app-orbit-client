@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import Swal from 'sweetalert2';
+
 import useAuth from './../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
-const MyProducts = () => {
 
+const MyProducts = () => {
+    // Set the page title when the component mounts
     useEffect( () => {
         document.title = 'My Products || AppOrbit';
     }, [] );

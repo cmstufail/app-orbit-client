@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
-import useAuth from '../../hooks/useAuth';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 
-const DefaultDashboardView = () => {
+import useAuth from '../../hooks/useAuth';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
+
+
+const DefaultDashboardView = () => {
+// Set the page title when the component mounts
     useEffect( () => {
         document.title = 'Dashboard || AppOrbit';
     }, [] );
@@ -25,7 +28,7 @@ const DefaultDashboardView = () => {
     if ( isError ) return <p>Error loading user profile</p>;
 
     return (
-        <div className="text-center py-20 text-gray-500">
+        <div className="bg-base-200 text-center py-20 text-base-content rounded-lg">
             <div className="flex flex-col items-center justify-center h-full min-h-[calc(100vh-200px)]">
                 <h2 className="text-4xl font-bold mb-4">Welcome, { dbUser.name } ! 👋</h2>
                 <p className='text-2xl border p-2 rounded-md mb-5'>Role: { dbUser.role }</p>
