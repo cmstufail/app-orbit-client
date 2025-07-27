@@ -58,7 +58,7 @@ const CommunitySpotlight = () => {
         </div>
 
         {/* Call to Action - Button will now be conditional */ }
-        <p className="text-xl text-gray-800 mb-6">Ready to make your mark?</p>
+        <p className="text-xl text-gray-500 mb-6">Ready to make your mark?</p>
         <Link to={ targetPath } className="btn btn-lg btn-primary normal-case hover:bg-white hover:text-black">
           { buttonText }
         </Link>

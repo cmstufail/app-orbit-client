@@ -2,6 +2,7 @@ export const isAdmin = ( role ) => role === 'admin';
 export const isModerator = ( role ) => role === 'moderator';
 export const isUser = ( role ) => role === 'user';
 
+
 export const shortenName = ( name, length = 10 ) => {
     if ( !name ) return '';
     return name.length > length ? name.slice( 0, length ) + '...' : name;

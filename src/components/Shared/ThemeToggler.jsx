@@ -56,8 +56,8 @@ const ThemeToggler = () => {
     };
 
     return (
-        <div className="fixed top-12 md:top-16 right-2 z-50">
-            <button onClick={ toggleTheme } className="btn btn-circle btn-primary shadow-lg">
+        <div>
+            <button onClick={ toggleTheme } className="btn btn-circle btn-otline shadow-lg">
                 { theme === 'light' ? (
                     <FaMoon />
                 ) : (

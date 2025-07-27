@@ -67,11 +67,11 @@ export const router = createBrowserRouter( [
                 element: <Contact />
             },
             {
-                path: "privacy",
+                path: "privacy-policy",
                 element: <PrivacyPolicy />
             },
             {
-                path: "terms",
+                path: "terms-of-service",
                 element: <TermsOfService />
             },
         ],

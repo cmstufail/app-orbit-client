@@ -9,6 +9,7 @@ import axios from 'axios';
 
 import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import Spinner from './../../components/Shared/Spinner';
 
 
 const ProductDetailsPage = () => {
@@ -131,8 +132,13 @@ const ProductDetailsPage = () => {
     // Handle Upvote
     const handleUpvote = ( e ) => {
         e.preventDefault();
-        if ( authLoading ) { toast( 'Loading user data, please wait...' ); return; }
+        if ( authLoading ) {
+            toast( 'Loading user data, please wait...' );
+            return;
+        }
+
         if ( !user ) { navigate( '/login', { state: { from: location } } ); return; }
+
         if ( product.owner.email === user.email ) {
             toast.error( "You cannot upvote your own product." );
             return;
@@ -142,8 +148,13 @@ const ProductDetailsPage = () => {
 
     // Handle Report
     const handleReport = () => {
-        if ( authLoading ) { toast( 'Loading user data, please wait...' ); return; }
+        if ( authLoading ) {
+            toast( 'Loading user data, please wait...' );
+            return;
+        }
+
         if ( !user ) { navigate( '/login', { state: { from: location } } ); return; }
+
         if ( product.owner.email === user.email ) {
             Swal.fire( {
                 icon: 'info',
@@ -225,10 +236,16 @@ const ProductDetailsPage = () => {
 
     const handleReviewSubmit = async ( e ) => {
         e.preventDefault();
-        if ( authLoading ) { toast( 'Loading user data, please wait...' ); return; }
+
+        if ( authLoading ) {
+            toast( 'Loading user data, please wait...' );
+            return;
+        }
+
         if ( !user ) { navigate( '/login', { state: { from: location } } ); return; }
 
         const reviewerName = user.displayName || user.email || "Anonymous Reviewer";
+
         const reviewerImage = user.photoURL || defaultAvatar;
 
         if ( !reviewerName ) {
@@ -250,13 +267,32 @@ const ProductDetailsPage = () => {
     };
 
     if ( productLoading || authLoading ) {
-        return <div className="min-h-screen flex justify-center items-center"><span className="loading loading-spinner loading-lg"></span></div>;
+        return (
+            <div className="min-h-screen flex flex-col items-center justify-center text-ui-text-primary dark:text-ui-text-dark">
+                <Spinner className="mb-2" />
+                <p>Loading product details... Please wait.</p>
+            </div>
+        );
     }
+
     if ( productError ) {
-        return <div className="min-h-screen flex justify-center items-center text-red-500">Error: { productErrorObj?.message || 'Failed to fetch product details.' }</div>;
+        console.error( "There was a problem loading product details.:", productErrorObj );
+
+        return (
+            <div className="min-h-screen flex flex-col items-center justify-center text-error-light dark:text-error-dark">
+                <p>There was a problem loading product details.</p>
+                <p className="text-sm mt-2">Please try again in a while.</p>
+            </div>
+        );
     }
+
     if ( !product ) {
-        return <div className="min-h-screen flex justify-center items-center text-gray-500">Product not found.</div>;
+        return (
+            <div className="min-h-screen flex flex-col items-center justify-center text-ui-text-muted dark:text-ui-text-secondary">
+                <p>Sorry! This product could not be found.</p>
+                <p className="text-sm mt-2">Return to the homepage to see other products.</p>
+            </div>
+        );
     }
 
     const isOwner = user && product.owner && user.uid === product.owner.id;

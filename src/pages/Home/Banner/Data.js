@@ -36,7 +36,7 @@ export const data = [
     shadow: "0px 10px 20px rgba(67, 30, 30, 0.8)",
     mobileShadow: "0px 5px 20px rgba(67, 30, 30, 0.8)",
     img: img3,
-    buttonText: "Sign Up Now",
+    buttonText: "Register Now",
     path: "/register",
   },
 ];

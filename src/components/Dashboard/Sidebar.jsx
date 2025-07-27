@@ -14,20 +14,24 @@ const Sidebar = () => {
         try {
             await logout();
             toast.success( 'User logged out successfully!!' );
-
         } catch ( error ) {
             console.error( "Logout failed:", error );
+            toast.error( 'Logout failed. Please try again.' );
         }
     };
 
     if ( roleLoading ) {
-        return <div className="p-4"><span className="loading loading-spinner loading-md"></span> Loading roles...</div>;
+        return (
+            <div className="p-4 text-ui-text-secondary dark:text-ui-text-muted flex items-center justify-center">
+                <Spinner className="mr-2" />
+                <span>Loading roles...</span>
+            </div>
+        );
     }
 
     return (
         <ul className="menu p-4 w-full bg-base-200 text-base-content min-h-full">
             {/* Common Links for all logged-in users */ }
-
             <li>
                 <NavLink
                     to="/dashboard"

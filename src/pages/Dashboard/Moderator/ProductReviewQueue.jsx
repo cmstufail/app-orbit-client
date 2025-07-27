@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { FaEye, FaCheck, FaTimes, FaStar } from 'react-icons/fa';
 
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import Spinner from '../../../components/Shared/Spinner';
 
 
 const ProductReviewQueue = () => {
@@ -138,12 +139,7 @@ const ProductReviewQueue = () => {
     };
 
     if ( isLoading ) {
-        return (
-            <div className="text-center py-10">
-                <span className="loading loading-spinner loading-lg"></span>
-                <p>Loading product review queue...</p>
-            </div>
-        );
+        return <Spinner />
     }
 
     if ( isError ) {

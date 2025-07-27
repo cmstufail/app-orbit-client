@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import useAuth from './../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import CheckoutForm from './CheckoutForm';
+import Spinner from '../../components/Shared/Spinner';
 
 
 const stripePromise = loadStripe( import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY );
@@ -84,12 +85,21 @@ const CheckoutPage = () => {
     };
 
     if ( authLoading ) {
-        return <div className="text-center py-10"><span className="loading loading-spinner loading-lg"></span></div>;
+        return (
+            <div className="text-center py-10 flex flex-col items-center justify-center text-ui-text-primary dark:text-ui-text-dark">
+                <Spinner className="mb-2" />
+                <p>Verifying profile... Please wait.</p>
+            </div>
+        );
     }
+
     if ( !user ) {
         return (
-            <div className="text-center py-10 text-gray-500">
-                <p>You must <Link to="/login" className="text-blue-600 underline">log in</Link> to checkout.</p>
+            <div className="text-center py-10 text-ui-text-secondary dark:text-ui-text-muted flex flex-col items-center justify-center">
+                <p>You must be logged in to view this page.</p>
+                <Link to="/login" className="text-link-active-light dark:text-link-active-dark underline mt-2">
+                    Login
+                </Link>
             </div>
         );
     }

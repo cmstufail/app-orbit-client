@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import Spinner from '../../../components/Shared/Spinner';
 
 
 const COLORS = [ '#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#A4DD00', '#FF6666', '#7C4DFF' ];
@@ -80,12 +81,7 @@ const Statistics = () => {
   ].filter( item => item.value > 0 );
 
   if ( isLoading ) {
-    return (
-      <div className="text-center py-10">
-        <span className="loading loading-spinner loading-lg"></span>
-        <p>Loading statistics...</p>
-      </div>
-    );
+    return <Spinner />
   }
 
   if ( isError ) {

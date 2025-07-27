@@ -1,6 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+
 import ProductCard from './ProductCard';
+import Spinner from '../../../components/Shared/Spinner'
+
 
 const fetchFeaturedProducts = async () => {
     const { data } = await axios.get( `${ import.meta.env.VITE_API_BASE_URL }/api/products/featured` );
@@ -11,8 +14,7 @@ const FeaturedProducts = () => {
     const {
         data: products = [],
         isLoading,
-        isError,
-        error
+        isError
     } = useQuery( {
         queryKey: [ 'featuredProducts' ],
         queryFn: fetchFeaturedProducts,
@@ -22,20 +24,14 @@ const FeaturedProducts = () => {
     } );
 
     if ( isLoading ) {
-        return (
-            <div className="text-center py-10">
-                <span className="loading loading-spinner loading-lg"></span>
-                <p>Loading featured products...</p>
-            </div>
-        );
+        return <Spinner />
     }
 
     if ( isError ) {
-        console.error( "FeaturedProducts: Displaying error message. Full error object:", error );
         return (
-            <div className="text-center py-10 text-red-500">
-                <p>Error loading featured products: { error.message }</p>
-                <p>Please check your backend server's `/api/products/featured` endpoint and network connection.</p>
+            <div className="text-center py-10 text-error-light dark:text-error-dark">
+                <p>Sorry! Featured products cannot be loaded.</p>
+                <p className="text-sm mt-2">Please try again in a while.</p>
             </div>
         );
     }
@@ -44,16 +40,15 @@ const FeaturedProducts = () => {
         return (
             <div className="text-center py-10 text-gray-500">
                 <p>No featured products to display at the moment.</p>
-                <p>Please ensure products have `isFeatured: true` and `status: "accepted"` in your database.</p>
             </div>
         );
     }
 
     return (
-        <div className="py-12 bg-base-200">
+        <div className="py-12 bg-light-section-bg dark:bg-dark-section-bg">
             <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-bold text-center mb-8">Featured Products</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <h2 className="text-3xl font-bold text-center mb-8 text-ui-text-primary dark:text-ui-text-dark">Featured Products</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     { products.map( product => (
                         <ProductCard
                             key={ product._id }

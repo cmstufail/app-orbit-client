@@ -3,11 +3,12 @@ import { useQuery } from '@tanstack/react-query';
 
 import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
+import Spinner from '../../components/Shared/Spinner';
 
 
 
 const DefaultDashboardView = () => {
-// Set the page title when the component mounts
+    // Set the page title when the component mounts
     useEffect( () => {
         document.title = 'Dashboard || AppOrbit';
     }, [] );
@@ -24,9 +25,12 @@ const DefaultDashboardView = () => {
         },
     } );
 
-    if ( isLoading ) return <p>Loading...</p>;
-    if ( isError ) return <p>Error loading user profile</p>;
-
+    if ( isLoading ) {
+        return <Spinner />
+    };
+    if ( isError ) {
+        return <p> Sorry! Your profile cannot be loaded. Please try again.</p>;
+    }
     return (
         <div className="bg-base-200 text-center py-20 text-base-content rounded-lg">
             <div className="flex flex-col items-center justify-center h-full min-h-[calc(100vh-200px)]">

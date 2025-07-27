@@ -2,9 +2,9 @@ import { FaUserPlus, FaThumbsUp, FaShareAlt, FaCogs } from 'react-icons/fa';
 
 const HowItWorks = () => {
     return (
-        <div className="py-12 my-18 bg-gradient-to-br from-[var(--how-it-works-gradient-start)] to-[var(--how-it-works-gradient-end)]">
+        <div className="py-12 my-18 bg-gradient-to-br from-[var(--how-it-works-gradient-start)] to-[var(--how-it-works-gradient-end)] rounded-lg">
             <div className="container mx-auto px-4 text-center">
-                <h2 className="text-4xl font-bold text-base-content mb-12">How AppOrbit Works</h2>
+                <h2 className="text-3xl font-bold text-base-content mb-12">How AppOrbit Works</h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {/* Join Community */ }

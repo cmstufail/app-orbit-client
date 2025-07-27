@@ -5,6 +5,9 @@ import { FaTag, FaCalendarAlt } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
+import Spinner from '../../../components/Shared/Spinner'
+
+
 
 const fetchValidCoupons = async () => {
     const { data } = await axios.get( `${ import.meta.env.VITE_API_BASE_URL }/api/coupons/valid` );
@@ -18,8 +21,7 @@ const CouponSlider = () => {
     const {
         data: coupons = [],
         isLoading,
-        isError,
-        error
+        isError
     } = useQuery( {
         queryKey: [ 'validCoupons' ],
         queryFn: fetchValidCoupons,
@@ -39,18 +41,14 @@ const CouponSlider = () => {
     }, [ coupons ] );
 
     if ( isLoading ) {
-        return (
-            <div className="text-center py-8">
-                <span className="loading loading-spinner loading-md"></span>
-                <p>Loading exciting offers...</p>
-            </div>
-        );
+        return <Spinner />
     }
 
     if ( isError ) {
         return (
-            <div className="text-center py-8 text-red-500">
-                <p>Error loading coupons: { error.message }</p>
+            <div className="text-center py-8 text-error-light dark:text-error-dark">
+                <p>Sorry! The coupons cannot be loaded.</p>
+                <p className="text-sm mt-2">Please try again in a while.</p>
             </div>
         );
     }
@@ -72,29 +70,29 @@ const CouponSlider = () => {
         <div ref={ sectionRef }
             className="py-12 my-12 bg-gradient-to-r from-[var(--coupon-gradient-start)] to-[var(--coupon-gradient-end)] text-white overflow-hidden rounded-lg">
             <div className="container mx-auto px-4 text-center">
-                <h2 className="text-3xl font-bold mb-8">Exclusive Offers!</h2>
+                <h2 className="text-3xl font-bold mb-8 text-ui-text-on-gradient dark:text-ui-text-on-gradient-dark">Exclusive Offers!</h2>
 
                 <div className="relative w-full max-w-xl mx-auto py-4 h-48 sm:h-64 md:h-64 lg:h-72">
                     { coupons.map( ( coupon, index ) => (
                         <div
                             key={ coupon._id }
-                            className={ `absolute top-0 left-0 w-full h-full p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center 
-                                transition-opacity duration-1000 ease-in-out ${ index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                            className={ `absolute top-0 left-0 w-full h-full p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center
+                        transition-opacity duration-1000 ease-in-out ${ index === currentIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'
                                 }` }
                         >
-                            <div className="bg-base-200 text-base-content rounded-lg shadow-xl p-4 sm:p-6 md:p-8 w-full h-full flex flex-col justify-center items-center">
-                                <FaTag className="text-3xl sm:text-4xl text-primary mb-2 sm:mb-3" />
-                                <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-primary mb-2">
+                            <div className="bg-coupon-card-light dark:bg-coupon-card-dark text-base-content-light dark:text-base-content-dark rounded-lg shadow-xl p-4 sm:p-6 md:p-8 w-full h-full flex flex-col justify-center items-center">
+                                <FaTag className="text-3xl sm:text-4xl text-coupon-icon-light dark:text-coupon-icon-dark mb-2 sm:mb-3" />
+                                <h3 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-coupon-discount-light dark:text-coupon-discount-dark mb-2">
                                     { coupon.discountAmount }% OFF!
                                 </h3>
-                                <p className="text-xl sm:text-2xl font-bold text-base-content text-opacity-70 mb-2"> { coupon.couponCode }</p>
-                                <p className="text-base sm:text-lg text-base-content text-opacity-70 mb-2"> { coupon.couponDescription }</p>
-                                <div className="flex items-center text-sm sm:text-base text-base-content text-opacity-70 mb-1">
+                                <p className="text-xl sm:text-2xl font-bold text-coupon-text-muted-light dark:text-coupon-text-muted-dark text-opacity-70 mb-2"> { coupon.couponCode }</p>
+                                <p className="text-base sm:text-lg text-coupon-text-muted-light dark:text-coupon-text-muted-dark text-opacity-70 mb-2"> { coupon.couponDescription }</p>
+                                <div className="flex items-center text-sm sm:text-base text-coupon-text-muted-light dark:text-coupon-text-muted-dark text-opacity-70 mb-1">
                                     <FaCalendarAlt className="mr-1" /> Expires: { formatDate( coupon.expiryDate ) }
                                 </div>
                                 <button
                                     onClick={ () => { navigator.clipboard.writeText( coupon.couponCode ); toast.success( 'Coupon code copied!' ); } }
-                                    className="btn btn-xs sm:btn-sm btn-outline"
+                                    className="btn btn-outline btn-xs sm:btn-sm"
                                 >
                                     Copy code
                                 </button>
@@ -109,8 +107,7 @@ const CouponSlider = () => {
                             <button
                                 key={ index }
                                 onClick={ () => setCurrentIndex( index ) }
-                                className={ `h-3 w-3 rounded-full -mt-8  ${ index === currentIndex ? 'bg-white' : 'bg-white bg-opacity-50'
-                                    }` }
+                                className={ `h-3 w-3 rounded-full -mt-8 ${ index === currentIndex ? 'bg-coupon-dot-active' : 'bg-coupon-dot-inactive' }` }
                                 aria-label={ `Go to slide ${ index + 1 }` }
                             />
                         ) ) }
@@ -118,7 +115,7 @@ const CouponSlider = () => {
                 ) }
 
                 <div className="text-center mt-8">
-                    <Link to="/dashboard/checkout" className="btn btn-lg btn-outline">Get a membership</Link>
+                    <Link to="/dashboard/checkout" className="btn btn-outline">Get a membership</Link>
                 </div>
             </div>
         </div>

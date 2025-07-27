@@ -12,7 +12,7 @@ import './Banner.css';
 
 const Banner = () => {
     return (
-        <div className='-mt-10'>
+        <div className='mt-24 md:mt-14'>
             <Swiper
                 spaceBetween={ 30 }
                 speed={ 1500 }
@@ -22,7 +22,7 @@ const Banner = () => {
                 pagination={ { clickable: true } }
                 navigation={ true }
                 modules={ [ Autoplay, EffectFade, Navigation, Pagination ] }
-                className="mySwiper rounded-lg my-18"
+                className="mySwiper rounded-lg"
             >
                 { data.map( ( slideData ) => (
                     <SwiperSlide

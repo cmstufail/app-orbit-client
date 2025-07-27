@@ -5,6 +5,7 @@ import { FaCrown, FaSyncAlt } from 'react-icons/fa';
 
 import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import Spinner from '../../../components/Shared/Spinner';
 
 
 const MyProfile = () => {
@@ -55,12 +56,8 @@ const MyProfile = () => {
     };
 
     if ( authLoading || dbUserLoading ) {
-        return (
-            <div className="text-center py-10">
-                <span className="loading loading-spinner loading-lg"></span>
-                <p>Loading profile data...</p>
-            </div>
-        );
+        return <Spinner />
+
     }
 
     if ( dbUserError ) {

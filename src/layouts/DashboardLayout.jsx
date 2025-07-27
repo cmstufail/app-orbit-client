@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import useAuth from '../hooks/useAuth';
 import Sidebar from './../components/Dashboard/Sidebar';
 import Navbar from '../components/Shared/Navbar';
+import Spinner from '../components/Shared/Spinner';
 
 
 const DashboardLayout = () => {
@@ -15,7 +16,12 @@ const DashboardLayout = () => {
     const { loading } = useAuth();
 
     if ( loading ) {
-        return <div className="text-center py-20"><span className="loading loading-spinner loading-lg"></span></div>;
+        return (
+            <div className="text-center py-20 text-ui-text-primary dark:text-ui-text-dark flex flex-col items-center justify-center">
+                <Spinner className="mb-2" />
+                <p>Loading information... Please wait.</p>
+            </div>
+        );
     }
 
     return (

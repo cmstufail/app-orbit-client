@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 
 import useAuth from './../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import Spinner from '../../../components/Shared/Spinner';
 
 
 const MyProducts = () => {
@@ -78,12 +79,8 @@ const MyProducts = () => {
     };
 
     if ( isLoading || authLoading ) {
-        return (
-            <div className="text-center py-10">
-                <span className="loading loading-spinner loading-lg"></span>
-                <p>Loading your products...</p>
-            </div>
-        );
+        return <Spinner />
+
     }
 
     if ( isError ) {

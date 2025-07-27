@@ -5,6 +5,7 @@ import { FaEye, FaTrashAlt } from 'react-icons/fa';
 import { useEffect } from 'react';
 
 import useAxiosSecure from './../../../hooks/useAxiosSecure';
+import Spinner from '../../../components/Shared/Spinner';
 
 const ReportedContents = () => {
 
@@ -79,12 +80,7 @@ const ReportedContents = () => {
     };
 
     if ( isLoading ) {
-        return (
-            <div className="text-center py-10">
-                <span className="loading loading-spinner loading-lg"></span>
-                <p>Loading reported contents...</p>
-            </div>
-        );
+        return <Spinner />
     }
 
     if ( isError ) {

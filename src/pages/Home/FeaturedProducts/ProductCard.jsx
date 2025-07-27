@@ -80,7 +80,7 @@ const ProductCard = ( { product } ) => {
                     src={ product.image || defaultProductImagePlaceholder }
                     alt={ product.name || 'Product Image' }
                     className={ `
-                        ${ showDefaultAvatar ? 'w-48 h-48 rounded-full object-cover mx-auto mt-4' : 'w-full h-48 object-cover rounded-t-lg p-3' }
+                        ${ showDefaultAvatar ? 'w-48 h-48 rounded-full object-contain mx-auto mt-4' : 'w-full h-48 object-contain rounded-t-lg p-3' }
                         ${ !showDefaultAvatar ? 'hover:scale-105 transition-transform duration-300' : '' }
                     `}
                     onError={ ( e ) => {

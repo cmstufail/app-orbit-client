@@ -2,16 +2,18 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 import ProductCard from '../FeaturedProducts/ProductCard';
+import Spinner from '../../../components/Shared/Spinner';
+
 
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-if (!API_BASE_URL) {
-    console.error("CRITICAL ERROR: VITE_API_BASE_URL is not defined! Check your .env.local or Vercel/Firebase Environment Variables.");
+if ( !API_BASE_URL ) {
+    console.error( "CRITICAL ERROR: VITE_API_BASE_URL is not defined! Check your .env.local or Vercel/Firebase Environment Variables." );
 }
 
 const fetchTrendingProducts = async () => {
-    const { data } = await axios.get( `${API_BASE_URL}/api/products/trending` );
+    const { data } = await axios.get( `${ API_BASE_URL }/api/products/trending` );
     return data;
 };
 
@@ -21,8 +23,7 @@ const TrendingProductsSection = () => {
     const {
         data: products = [],
         isLoading,
-        isError,
-        error
+        isError
     } = useQuery( {
         queryKey: [ 'trendingProducts' ],
         queryFn: fetchTrendingProducts,
@@ -31,19 +32,14 @@ const TrendingProductsSection = () => {
     } );
 
     if ( isLoading ) {
-        return (
-            <div className="text-center py-10">
-                <span className="loading loading-spinner loading-lg"></span>
-                <p>Loading trending products...</p>
-            </div>
-        );
+        return <Spinner />
     }
 
     if ( isError ) {
         return (
-            <div className="text-center py-10 text-red-500">
-                <p>Error loading trending products: { error.message }</p>
-                <p>Please check your backend server and network connection.</p>
+            <div className="text-center py-10 text-error-light dark:text-error-dark">
+                <p>Sorry! Trending products cannot be loaded.</p>
+                <p className="text-sm mt-2">Please try again in a while.</p>
             </div>
         );
     }

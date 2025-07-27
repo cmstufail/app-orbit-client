@@ -8,6 +8,7 @@ import Lottie from 'lottie-react';
 
 import useAuth from '../../hooks/useAuth';
 import loginLottie from '../../../src/assets/lotties/Login.json'
+import Spinner from './../../components/Shared/Spinner';
 
 
 const Login = () => {
@@ -141,26 +142,22 @@ const Login = () => {
 
     if ( authLoading ) {
         return (
-            <div className="text-center py-20">
-                <span className="loading loading-spinner loading-lg"></span>
-                <p>Loading authentication state...</p>
+            <div className="text-center py-20 text-ui-text-primary dark:text-ui-text-dark flex flex-col items-center justify-center">
+                <Spinner className="mb-2" />
+                <p>Loading... Please wait.</p>
             </div>
         );
     }
 
     return (
-        <div className="hero min-h-screen bg-base-200">
+        <div className="hero min-h-screen bg-base-200 -mt-16">
             <div className="hero-content flex-col lg:flex-row-reverse">
-                {/* <div className="text-center lg:text-left">
-                    <h1 className="text-5xl font-bold">Login now!</h1>
-                    <p className="py-6">Access your dashboard, submit products, and unlock premium features.</p>
-                </div> */}
                 <div className='text-center lg:text-left'>
                     <Lottie style={ { width: "300px" } } animationData={ loginLottie } loop={ true }></Lottie>
                 </div>
                 <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                     <form onSubmit={ handleSubmit( handleEmailPasswordLogin ) } className="card-body">
-                        <h1 className="text-3xl font-bold text-center">Login Now</h1>
+                        <h1 className="text-3xl font-bold text-center">Login Now!</h1>
 
                         {/* Email Field */ }
                         <div className="form-control">
@@ -200,7 +197,7 @@ const Login = () => {
                                 className="input input-bordered focus:outline-none pr-10"
                             />
                             <span
-                                className="absolute top-12 right-3 cursor-pointer"
+                                className="absolute top-9 right-6 cursor-pointer"
                                 onClick={ () => setShowPassword( !showPassword ) }
                             >
                                 { showPassword ? <FaRegEye /> : <FaRegEyeSlash /> }

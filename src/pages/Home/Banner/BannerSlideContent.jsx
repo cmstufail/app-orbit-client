@@ -18,7 +18,7 @@ const BannerSlideContent = ( { colorDeep, mainText, shadow, mobileShadow, subTex
                     <Button
                         type='button'
                         text={ buttonText }
-                        className='text-xl font-bold py-4 px-9 focus:outline-none w-full'
+                        className='text-xl font-bold py-4 px-4 focus:outline-none w-full'
                         style={
                             window.innerWidth > 767
                                 ? { backgroundColor: `${ colorDeep }`, boxShadow: `${ shadow }` }

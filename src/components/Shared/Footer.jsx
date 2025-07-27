@@ -46,10 +46,34 @@ const Footer = () => {
                 <h6 className="footer-title">
                     Company</h6>
                 {/* Useful links */ }
-                <Link to="/about" className="link link-hover">About Us</Link>
-                <Link to="/contact" className="link link-hover">Contact</Link>
-                <Link to="/privacy" className="link link-hover">Privacy Policy</Link>
-                <Link to="/terms" className="link link-hover">Terms of Service</Link>
+                <NavLink
+                    to="/about"
+                    className={ ( { isActive } ) => isActive ? "link link-hover font-bold text-primary" : "link link-hover" }
+                    end
+                >
+                    About Us
+                </NavLink>
+
+                <NavLink
+                    to="/contact"
+                    className={ ( { isActive } ) => isActive ? "link link-hover font-bold text-primary" : "link link-hover" }
+                >
+                    Contact
+                </NavLink>
+
+                <NavLink
+                    to="/privacy-policy"
+                    className={ ( { isActive } ) => isActive ? "link link-hover font-bold text-primary" : "link link-hover" }
+                >
+                    Privacy Policy
+                </NavLink>
+
+                <NavLink
+                    to="/terms-of-service"
+                    className={ ( { isActive } ) => isActive ? "link link-hover font-bold text-primary" : "link link-hover" }
+                >
+                    Terms of Service
+                </NavLink>
             </nav>
 
             {/* social media section */ }
@@ -57,19 +81,19 @@ const Footer = () => {
                 <h6 className="footer-title">Stay connected with us</h6>
                 <div className="grid grid-flow-col gap-4">
                     {/* Facebook Link */ }
-                    <a href="https://www.facebook.com/yourpage" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="btn btn-ghost btn-circle">
+                    <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="btn btn-ghost btn-circle">
                         <FaFacebookF className="text-2xl" />
                     </a>
                     {/* Twitter Link */ }
-                    <a href="https://twitter.com/yourpage" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="btn btn-ghost btn-circle">
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="btn btn-ghost btn-circle">
                         <FaTwitter className="text-2xl" />
                     </a>
                     {/* Instagram Link */ }
-                    <a href="https://www.instagram.com/yourpage" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="btn btn-ghost btn-circle">
+                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="btn btn-ghost btn-circle">
                         <FaInstagram className="text-2xl" />
                     </a>
                     {/* LinkedIn Link */ }
-                    <a href="https://www.linkedin.com/company/yourcompany" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="btn btn-ghost btn-circle">
+                    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="btn btn-ghost btn-circle">
                         <FaLinkedinIn className="text-2xl" />
                     </a>
                 </div>

@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast';
 
 import useAuth from './../../hooks/useAuth';
 import useAxiosSecure from './../../hooks/useAxiosSecure';
+import Spinner from './../../components/Shared/Spinner';
 
 
 const ProductUpdate = () => {
@@ -105,18 +106,20 @@ const ProductUpdate = () => {
 
     if ( isLoading || authLoading ) {
         return (
-            <div className="text-center py-10">
-                <span className="loading loading-spinner loading-lg"></span>
-                <p>Loading product details...</p>
+            <div className="text-center py-10 flex flex-col items-center justify-center text-ui-text-primary dark:text-ui-text-dark">
+                <Spinner className="mb-2" />
+                <p>Loading product details... Please wait.</p>
             </div>
         );
     }
 
     if ( isError ) {
+        console.error( "There was a problem loading product details.", error );
+
         return (
-            <div className="text-center py-10 text-red-500">
-                <p>Error loading product: { error.message }</p>
-                <p>Please check the product ID or your network connection.</p>
+            <div className="text-center py-10 text-error-light dark:text-error-dark flex flex-col items-center justify-center">
+                <p>Sorry! Unable to load product details.</p>
+                <p className="text-sm mt-2">Please try again in a while.</p>
             </div>
         );
     }

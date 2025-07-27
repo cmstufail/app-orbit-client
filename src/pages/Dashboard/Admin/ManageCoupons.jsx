@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
-import Swal from 'sweetalert2';
-import { FaPlus, FaEdit, FaTrashAlt, FaTag, FaCalendarAlt } from 'react-icons/fa';
+import  Swal from 'sweetalert2';
+import { FaEdit, FaTrashAlt, FaCalendarAlt } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 
 import useAxiosSecure from './../../../hooks/useAxiosSecure';
+import Spinner from '../../../components/Shared/Spinner';
+
 
 
 const ManageCoupons = () => {
@@ -157,24 +159,21 @@ const ManageCoupons = () => {
         return new Date( dateString ).toLocaleDateString( undefined, options );
     };
 
-    // Loading and Error states for fetching coupons
+
     if ( isLoading ) {
-        return (
-            <div className="text-center py-10">
-                <span className="loading loading-spinner loading-lg"></span>
-                <p>Loading coupons...</p>
-            </div>
-        );
+        return <Spinner />
     }
 
     if ( isError ) {
+        console.error( "There was a problem loading the coupon.", error );
+
         return (
-            <div className="text-center py-10 text-red-500">
-                <p>Error loading coupons: { error.message }</p>
+            <div className="text-center py-10 text-error-light dark:text-error-dark">
+                <p>Sorry! Coupons cannot be loaded at this time.</p>
+                <p className="text-sm mt-2">Please try again in a while.।</p>
             </div>
         );
     }
-
     return (
         <div className="container mx-auto px-4 py-8 bg-base-200">
             <h2 className="text-3xl font-bold text-center mb-8">{ editingCoupon ? 'Edit Coupon' : 'Add New Coupon' }</h2>
