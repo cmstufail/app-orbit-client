@@ -10,6 +10,22 @@ Experience AppOrbit live:
 ## Backend (Server API): https://app-orbit-server-jet.vercel.app
 
 
+
+### যা যা সাবমিট করতে হবে (Assignment-12):
+-------------------------------
+
+# Admin Email: habibur@rahman.com
+
+# Admin Password: Ha123456789
+
+## Live Site Link: https://app-orbit.web.app 
+
+## Github Repository ( server ): https://github.com/Programming-Hero-Web-Course4/b11a12-server-side-cmstufail
+
+## Github Repository ( client  ): https://github.com/Programming-Hero-Web-Course4/b11a12-client-side-cmstufail
+
+-------------------------------------
+
 ✨ Key Features
 AppOrbit offers a comprehensive set of features for both users and administrators:
 

@@ -30,7 +30,7 @@ const Navbar = () => {
 
     return (
         <nav className="bg-base-200 fixed top-0 left-0 right-0 z-50">
-            <div className="w-full max-w-7xl mx-auto px-0 shadow-md dark:shadow-lg flex justify-between items-center">
+            <div className="w-full max-w-7xl mx-auto px-2 md:px-5 lg:px-0 shadow-md dark:shadow-lg flex justify-between items-center">
                 <div className="navbar-start">
                     <div className="dropdown md:hidden">
                         <label tabIndex={ 0 } className="btn btn-ghost">
@@ -123,7 +123,7 @@ const Navbar = () => {
                                 <span className="absolute inset-0 bg-primary-hover-overlay opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-full"></span>
                             </Link>
 
-                            <Link to="/register" className="btn-custom-outline-secondary rounded-full px-4 py-2 flex items-center group overflow-hidden relative">
+                            <Link to="/register" className="btn-custom-outline-secondary rounded-full px-2 py-2 flex items-center group overflow-hidden relative">
                                 <FaUserPlus className="text-xl relative z-10 transition-transform duration-300 group-hover:-translate-x-1 mr-2" />
                                 <span className="font-semibold relative z-10 transition-transform duration-300 group-hover:translate-x-1">Register</span>
                                 <span className="absolute inset-0 bg-secondary-hover-overlay opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-full"></span>
