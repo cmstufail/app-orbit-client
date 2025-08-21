@@ -6,10 +6,11 @@ import { useNavigate } from 'react-router-dom';
 
 import useAuth from '../../../hooks/useAuth';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import Container from './../../../components/Container';
 
 
 const AddProduct = () => {
-// Set the page title when the component mounts
+    // Set the page title when the component mounts
     useEffect( () => {
         document.title = 'Add Product || AppOrbit';
     }, [] );
@@ -114,79 +115,79 @@ const AddProduct = () => {
     };
 
     return (
-        <div className="container mx-auto p-4 text">
-            <h2 className="text-3xl font-bold text-center my-8">Add New Product</h2>
-            <form onSubmit={ handleSubmit } className="max-w-3xl mx-auto bg-base-200 p-8 rounded-lg shadow-lg">
-                <div className="form-control mb-4">
-                    <label className="label">
-                        <span className="label-text">Product Name</span>
-                    </label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={ formData.name }
-                        onChange={ handleChange }
-                        placeholder="Enter product name"
-                        className="input input-bordered w-full"
-                        required
-                    />
-                </div>
+        <Container>
+                <h2 className="text-3xl font-bold text-center my-8">Add New Product</h2>
+                <form onSubmit={ handleSubmit } className="max-w-3xl mx-auto bg-base-200 p-8 rounded-lg shadow-lg">
+                    <div className="form-control mb-4">
+                        <label className="label">
+                            <span className="label-text">Product Name</span>
+                        </label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={ formData.name }
+                            onChange={ handleChange }
+                            placeholder="Enter product name"
+                            className="input input-bordered w-full"
+                            required
+                        />
+                    </div>
 
-                <div className="form-control mb-4">
-                    <label className="label">
-                        <span className="label-text">Product Image URL</span>
-                    </label>
-                    <input
-                        type="url"
-                        name="image"
-                        value={ formData.image }
-                        onChange={ handleChange }
-                        placeholder="https://example.com/product-image.jpg"
-                        className="input input-bordered w-full"
-                        required
-                    />
-                </div>
+                    <div className="form-control mb-4">
+                        <label className="label">
+                            <span className="label-text">Product Image URL</span>
+                        </label>
+                        <input
+                            type="url"
+                            name="image"
+                            value={ formData.image }
+                            onChange={ handleChange }
+                            placeholder="https://example.com/product-image.jpg"
+                            className="input input-bordered w-full"
+                            required
+                        />
+                    </div>
 
-                <div className="form-control mb-4">
-                    <label className="label">
-                        <span className="label-text">Product Description</span>
-                    </label>
-                    <textarea
-                        name="description"
-                        value={ formData.description }
-                        onChange={ handleChange }
-                        placeholder="Describe your product..."
-                        className="textarea textarea-bordered h-24 w-full"
-                        required
-                    ></textarea>
-                </div>
+                    <div className="form-control mb-4">
+                        <label className="label">
+                            <span className="label-text">Product Description</span>
+                        </label>
+                        <textarea
+                            name="description"
+                            value={ formData.description }
+                            onChange={ handleChange }
+                            placeholder="Describe your product..."
+                            className="textarea textarea-bordered h-24 w-full"
+                            required
+                        ></textarea>
+                    </div>
 
-                <div className="form-control mb-4">
-                    <label className="label">
-                        <span className="label-text">Tags (comma-separated)</span>
-                    </label>
-                    <input
-                        type="text"
-                        name="tags"
-                        value={ formData.tags }
-                        onChange={ handleChange }
-                        placeholder="e.g., tech, innovation, software"
-                        className="input input-bordered w-full"
-                        required
-                    />
-                </div>
+                    <div className="form-control mb-4">
+                        <label className="label">
+                            <span className="label-text">Tags (comma-separated)</span>
+                        </label>
+                        <input
+                            type="text"
+                            name="tags"
+                            value={ formData.tags }
+                            onChange={ handleChange }
+                            placeholder="e.g., tech, innovation, software"
+                            className="input input-bordered w-full"
+                            required
+                        />
+                    </div>
 
-                <div className="form-control mt-6">
-                    <button
-                        type="submit"
-                        className="btn btn-primary w-full"
-                        disabled={ addProductMutation.isPending || authLoading }
-                    >
-                        { addProductMutation.isPending ? 'Adding Product...' : 'Add Product' }
-                    </button>
-                </div>
-            </form>
-        </div>
+                    <div className="form-control mt-6">
+                        <button
+                            type="submit"
+                            className="btn btn-primary w-full"
+                            disabled={ addProductMutation.isPending || authLoading }
+                        >
+                            { addProductMutation.isPending ? 'Adding Product...' : 'Add Product' }
+                        </button>
+                    </div>
+                </form>
+        </Container>
     );
 };
 

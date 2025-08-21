@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import useAuth from '../../hooks/useAuth';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import Spinner from '../../components/Shared/Spinner';
+import Container from '../Container';
 
 
 
@@ -32,13 +33,15 @@ const DefaultDashboardView = () => {
         return <p> Sorry! Your profile cannot be loaded. Please try again.</p>;
     }
     return (
-        <div className="bg-base-200 text-center py-20 text-base-content rounded-lg">
+        <Container>
+            <div className="bg-base-200 text-center py-20 text-base-content rounded-lg">
             <div className="flex flex-col items-center justify-center h-full min-h-[calc(100vh-200px)]">
                 <h2 className="text-4xl font-bold mb-4">Welcome, { dbUser.name } ! 👋</h2>
                 <p className='text-2xl border p-2 rounded-md mb-5'>Role: { dbUser.role }</p>
                 <p className="text-lg mb-2">Please select an option from the sidebar to get started.</p>
             </div>
         </div>
+        </Container>
     );
 };
 

@@ -152,7 +152,7 @@ const ProductReviewQueue = () => {
 
     if ( products.length === 0 ) {
         return (
-            <div className="text-center py-10 text-gray-500">
+            <div className="text-center py-10">
                 <p>No products currently awaiting review. Great job, Moderator!</p>
             </div>
         );

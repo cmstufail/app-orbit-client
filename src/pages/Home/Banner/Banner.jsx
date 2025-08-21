@@ -12,7 +12,7 @@ import './Banner.css';
 
 const Banner = () => {
     return (
-        <div className='mt-24 md:mt-14'>
+        <div className='mt-36 md:mt-14'>
             <Swiper
                 spaceBetween={ 30 }
                 speed={ 1500 }

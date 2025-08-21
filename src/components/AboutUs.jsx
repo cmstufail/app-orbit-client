@@ -3,6 +3,7 @@ import { FaUsers, FaLightbulb, FaRocket } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 import useAuth from '../hooks/useAuth';
+import Container from './Container';
 
 
 const AboutUs = () => {
@@ -17,13 +18,14 @@ const AboutUs = () => {
     const buttonText = user ? 'Go to Dashboard' : 'Get Started';
 
     return (
-        <div className="container mx-auto px-4 py-12 bg-base-100 min-h-screen">
+        <Container>
+            <div className="py-12 bg-base-100 min-h-screen">
             <h1 className="text-4xl md:text-5xl font-extrabold text-center mb-10 text-primary">
                 Our Story
             </h1>
 
             <section className="mb-12">
-                <div className="flex flex-col md:flex-row items-center gap-8 bg-base-200 p-8 rounded-lg shadow-lg">
+                <div className="flex flex-col md:flex-row items-center justify-center gap-8 bg-base-200 p-8 rounded-lg shadow-l">
                     <div className="md:w-1/2">
                         <img
                             src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -43,23 +45,23 @@ const AboutUs = () => {
                 </div>
             </section>
 
-            <section className="mb-12">
+            <section className="my-4 w-full">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                    <div className="bg-base-200 text-base-content p-8 rounded-lg shadow-md flex flex-col items-center">
+                    <div className="bg-base-200 text-base-content p-8 rounded-lg shadow-lg flex flex-col items-center">
                         <FaRocket className="text-5xl text-primary mb-4" />
                         <h3 className="text-2xl text-base-content font-bold mb-3">Our Goal</h3>
                         <p className="text-base-content text-opacity-70">
                             Inventing and delivering innovative technology products to everyone, and creating a strong platform for users where they can freely express their opinions.
                         </p>
                     </div>
-                    <div className="bg-base-200 p-8 rounded-lg shadow-md flex flex-col items-center">
+                    <div className="bg-base-200 p-8 rounded-lg shadow-lg flex flex-col items-center">
                         <FaLightbulb className="text-5xl text-accent mb-4" />
                         <h3 className="text-2xl font-bold mb-3 text-base-content">Our View</h3>
                         <p className="text-base-content text-opacity-70">
                             Creating a global community where tech enthusiasts can learn about the latest innovations, discuss, and inspire each other.
                         </p>
                     </div>
-                    <div className="bg-base-200 p-8 rounded-lg shadow-md flex flex-col items-center">
+                    <div className="bg-base-200 p-8 rounded-lg shadow-lg flex flex-col items-center">
                         <FaUsers className="text-5xl text-info mb-4" />
                         <h3 className="text-2xl font-bold mb-3 text-base-content">Our Team</h3>
                         <p className="text-base-content text-opacity-70">
@@ -79,6 +81,8 @@ const AboutUs = () => {
                 </Link>
             </section>
         </div>
+        </Container>
+
     );
 };
 

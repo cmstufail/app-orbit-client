@@ -1,2 +1,12 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+/* @layer base {
+  html.dark {
+    --color-text-base: #f3f4f6;
+    --color-text-muted: #d1d5db;
+    --color-text-inverted: #111827;
+    --color-fill: #111827;
+    --color-fill-muted: #1f2937;
+  }
+} */

@@ -45,8 +45,8 @@ const FeaturedProducts = () => {
     }
 
     return (
-        <div className="py-12 bg-light-section-bg dark:bg-dark-section-bg">
-            <div className="container mx-auto px-4">
+        <div className="py-12 bg-light-section-bg dark:bg-dark-section-bg shadow-md">
+            <div>
                 <h2 className="text-3xl font-bold text-center mb-8 text-ui-text-primary dark:text-ui-text-dark">Featured Products</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     { products.map( product => (

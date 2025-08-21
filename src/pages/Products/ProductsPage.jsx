@@ -3,9 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
+// components
 import ProductCard from '../Home/FeaturedProducts/ProductCard';
 import Spinner from './../../components/Shared/Spinner';
-
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -23,7 +23,6 @@ const fetchProducts = async ( page, limit, search ) => {
 };
 
 const ProductsPage = () => {
-
     useEffect( () => {
         document.title = 'Products || AppOrbit';
     }, [] );
@@ -52,7 +51,6 @@ const ProductsPage = () => {
         navigate( `?${ params.toString() }`, { replace: true } );
     }, [ currentPage, searchQuery, navigate ] );
 
-
     const {
         data: productData,
         isLoading,
@@ -75,12 +73,17 @@ const ProductsPage = () => {
         setSearchQuery( searchInput );
     };
 
+    const resetFilters = () => {
+        setCurrentPage( 1 );
+        setSearchQuery( '' );
+        setSearchInput( '' );
+    };
+
     const handlePageChange = ( page ) => {
         if ( page >= 1 && page <= totalPages ) {
             setCurrentPage( page );
         }
     };
-
 
     if ( isLoading ) {
         return (
@@ -93,7 +96,6 @@ const ProductsPage = () => {
 
     if ( isError ) {
         console.error( "There was a problem loading the product.:", error );
-
         return (
             <div className="text-center py-10 text-error-light dark:text-error-dark flex flex-col items-center justify-center">
                 <p>Sorry! Products cannot be loaded at this time.</p>
@@ -103,7 +105,7 @@ const ProductsPage = () => {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="px-6 py-8">
             <h2 className="text-3xl font-bold text-center mb-8">All Accepted Products</h2>
 
             {/* Search Bar */ }
@@ -122,13 +124,38 @@ const ProductsPage = () => {
                 </div>
             </form>
 
+            {/* Product Count and Reset Option */ }
+            <div className="text-center mb-6" aria-live="polite">
+                { totalProducts > 0 ? (
+                    <p className="text-lg">
+                        Showing <span className="font-semibold">{ products.length }</span> of{ " " }
+                        <span className="font-semibold">{ totalProducts }</span> products
+                        { products.length < totalProducts && (
+                            <span className="block text-sm mt-1">
+                                (Use navigation below to see more)
+                            </span>
+                        ) }
+                    </p>
+                ) : (
+                    <p className="text-lg">
+                        No products found matching your criteria.{ " " }
+                        <button
+                            onClick={ resetFilters }
+                            className="text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
+                        >
+                            Reset filters
+                        </button>
+                    </p>
+                ) }
+            </div>
+
             {/* Product Grid */ }
             { products.length === 0 ? (
-                <div className="text-center py-10 text-gray-500">
+                <div className="text-center py-10">
                     <p>No products found matching your criteria. Try a different search or clear the filter.</p>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     { products.map( product => (
                         <ProductCard
                             key={ product._id }
@@ -144,9 +171,13 @@ const ProductsPage = () => {
                 <div className="flex justify-center mt-10">
                     <div className="join">
                         <button
-                            className="join-item btn btn-primary"
+                            className={ `join-item btn mr-2 ${ currentPage === 1
+                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                : 'bg-primary hover:bg-primary-focus text-white'
+                                }` }
                             onClick={ () => handlePageChange( currentPage - 1 ) }
                             disabled={ currentPage === 1 }
+                            aria-label="Previous page"
                         >
                             Previous
                         </button>
@@ -155,28 +186,22 @@ const ProductsPage = () => {
                                 key={ index }
                                 className={ `join-item btn ${ currentPage === index + 1 ? 'btn-active' : 'btn-ghost' }` }
                                 onClick={ () => handlePageChange( index + 1 ) }
+                                aria-label={ `Go to page ${ index + 1 }` }
                             >
                                 { index + 1 }
                             </button>
                         ) ) }
                         <button
-                            className="join-item btn btn-primary"
+                            className="join-item btn ml-2 bg-primary hover:bg-primary-focus text-white dark:text-white disabled:bg-gray-200 disabled:text-gray-500 dark:disabled:bg-gray-700 dark:disabled:text-gray-400"
                             onClick={ () => handlePageChange( currentPage + 1 ) }
                             disabled={ currentPage === totalPages }
+                            aria-label="Next page"
                         >
                             Next
                         </button>
                     </div>
                 </div>
             ) }
-            {/* Display total product count */ }
-            <div className="text-center text-lg text-gray-700 mb-6">
-                { totalProducts > 0 ? (
-                    <p>Showing { products.length } of { totalProducts } products.</p>
-                ) : (
-                    <p>No products found matching your criteria.</p>
-                ) }
-            </div>
         </div>
     );
 };

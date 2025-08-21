@@ -5,6 +5,7 @@ import useAuth from '../hooks/useAuth';
 import Sidebar from './../components/Dashboard/Sidebar';
 import Navbar from '../components/Shared/Navbar';
 import Spinner from '../components/Shared/Spinner';
+import Container from '../components/Container';
 
 
 const DashboardLayout = () => {
@@ -25,17 +26,19 @@ const DashboardLayout = () => {
     }
 
     return (
-        <div className="flex flex-col min-h-screen mt-12 pl-12">
-            <Navbar />
-            <div className="flex flex-grow flex-col lg:flex-row">
-                <div className="lg:w-64 bg-base-300 p-4 shadow-lg">
-                    <Sidebar />
-                </div>
-                <div className="flex-1 p-4 lg:p-8 bg-base-100">
-                    <Outlet />
+        <Container>
+            <div className="flex flex-col min-h-screen mt-12 lg:pl-12">
+                <Navbar />
+                <div className="flex flex-grow flex-col lg:flex-row">
+                    <div className="lg:w-64 bg-base-300 p-1 shadow-lg">
+                        <Sidebar />
+                    </div>
+                    <div className="flex-1 py-4 lg:p-8 bg-base-100">
+                        <Outlet />
+                    </div>
                 </div>
             </div>
-        </div>
+        </Container>
     );
 };
 

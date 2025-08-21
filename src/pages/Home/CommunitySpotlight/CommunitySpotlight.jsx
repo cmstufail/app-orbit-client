@@ -20,8 +20,8 @@ const CommunitySpotlight = () => {
   const buttonText = user ? "Go to My Dashboard" : "Join AppOrbit Today!";
 
   return (
-    <div className="my-24 bg-base-100">
-      <div className="container mx-auto px-4 text-center">
+    <div className="bg-base-200 rounded-lg py-12">
+      <div className="text-center">
         <h2 className="text-4xl font-bold text-base-content mb-5">Join Our Thriving Community</h2>
 
         <p className="text-lg text-base-content text-opacity-70 max-w-3xl mx-auto mb-10">
@@ -58,7 +58,7 @@ const CommunitySpotlight = () => {
         </div>
 
         {/* Call to Action - Button will now be conditional */ }
-        <p className="text-xl text-gray-500 mb-6">Ready to make your mark?</p>
+        <p className="text-xl mb-6">Ready to make your mark?</p>
         <Link to={ targetPath } className="btn btn-lg btn-primary normal-case hover:bg-white hover:text-black">
           { buttonText }
         </Link>

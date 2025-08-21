@@ -5,8 +5,9 @@ import { FaTag, FaCalendarAlt } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
-import Spinner from '../../../components/Shared/Spinner'
-
+// components
+import Spinner from '../../../components/Shared/Spinner';
+import { useTheme } from '../../../contexts/ThemeContext';
 
 
 const fetchValidCoupons = async () => {
@@ -15,6 +16,9 @@ const fetchValidCoupons = async () => {
 };
 
 const CouponSlider = () => {
+
+    const { theme } = useTheme();
+
     const [ currentIndex, setCurrentIndex ] = useState( 0 );
     const sectionRef = useRef( null );
 
@@ -68,7 +72,10 @@ const CouponSlider = () => {
 
     return (
         <div ref={ sectionRef }
-            className="py-12 my-12 bg-gradient-to-r from-[var(--coupon-gradient-start)] to-[var(--coupon-gradient-end)] text-white overflow-hidden rounded-lg">
+            className={ `py-12 my-12 ${ theme === 'dark'
+                    ? 'bg-gradient-to-r from-gray-800 to-gray-900'
+                    : 'bg-gradient-to-r from-purple-600 to-pink-400'
+                } text-white overflow-hidden rounded-lg` }>
             <div className="container mx-auto px-4 text-center">
                 <h2 className="text-3xl font-bold mb-8 text-ui-text-on-gradient dark:text-ui-text-on-gradient-dark">Exclusive Offers!</h2>
 

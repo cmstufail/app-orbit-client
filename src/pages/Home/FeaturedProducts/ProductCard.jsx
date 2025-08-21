@@ -10,7 +10,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 
 const ProductCard = ( { product } ) => {
-    
+
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
     const navigate = useNavigate();
@@ -73,7 +73,7 @@ const ProductCard = ( { product } ) => {
     return (
         <Link
             to={ `/product/${ product._id }` }
-            className="card bg-base-100 shadow-xl border border-primary border-2 hover:scale-105 transition-transform duration-300"
+            className="card bg-base-100 shadow-xl hover:scale-105 transition-transform duration-300"
         >
             <figure className="relative">
                 <img
@@ -90,11 +90,11 @@ const ProductCard = ( { product } ) => {
                         console.warn( `ProductCard: Image failed to load for product "${ product.name }". Using fallback to avatar.` );
                     } }
                 />
-                <Link to={ `/product/${ product._id }` } className="absolute inset-0 z-10 opacity-0 hover:opacity-100 transition-opacity duration-200 flex items-center justify-center bg-black bg-opacity-40 text-white text-lg font-bold">
+                <Link to={ `/product/${ product._id }` } className="absolute inset-0 z-10 opacity-0 hover:opacity-100 transition-opacity duration-200 flex items-center justify-center bg-[#3825C1] bg-opacity-40 text-white text-lg font-bold">
                     View Details
                 </Link>
             </figure>
-            <div className="card-body p-4">
+            <div className="card-body">
                 <h2 className="card-title">{ product.name }</h2>
                 <p className="text-sm line-clamp-2">{ product.description }</p>
                 <div className="flex flex-wrap gap-2 mt-2">

@@ -11,9 +11,6 @@ Experience AppOrbit live:
 
 
 
-### যা যা সাবমিট করতে হবে (Assignment-12):
--------------------------------
-
 # Admin Email: habibur@rahman.com
 
 # Admin Password: Ha123456789
