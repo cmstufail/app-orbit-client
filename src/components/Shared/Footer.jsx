@@ -5,8 +5,7 @@ import AppOrbitLogo from './AppOrbitLogo';
 
 const Footer = () => {
     return (
-        // footer p-10 bg-neutral text-neutral-content grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8
-        <footer className="footer p-10 bg-base-300 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <footer className="footer p-10 bg-base-300 w-screen relative left-1/2 right-1/2 -mx-[50vw] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mt-24">
             <aside className="text-center md:text-left lg:col-span-2">
                 {/* Logo/Website Name */ }
                 <Link to="/" className="text-2xl font-bold text-primary">
